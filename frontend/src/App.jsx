@@ -23,7 +23,7 @@ function App() {
 
 	const dispatch = useDispatch();
 	// const currentUser = useSelector((state) => state.authUser);
-	const { data: authUser, isLoading } = useQuery({
+	const { data: authUser  } = useQuery({
 		queryKey: ["authUser"],
 		queryFn: async () => {
 			try {
@@ -41,7 +41,6 @@ function App() {
 		},
 	});
 
-	// if (isLoading) return null;
 
 	return (
 		<Layout authUser={authUser} >
