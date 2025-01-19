@@ -1,0 +1,10 @@
+.glow {
+    filter: drop-shadow(0 0 5px rgba(0, 115, 177, 0.8)) 
+            drop-shadow(0 0 10px rgba(0, 115, 177, 0.6));
+    transition: filter 0.3s ease;
+  }
+  
+.nav-link.active .glow {
+    filter: drop-shadow(0 0 10px rgba(0, 115, 177, 1)) 
+            drop-shadow(0 0 20px rgba(0, 115, 177, 0.8));
+}

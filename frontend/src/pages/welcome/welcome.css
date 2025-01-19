@@ -1,0 +1,144 @@
+
+body {
+     margin: 0;
+     font-family:Roboto (+ Condensed and Slab)  ;
+   }
+   
+   .welcome-container {
+     display: flex;
+     height: 100vh;
+   }
+   .logo {
+    display: block;
+    margin: 0 auto; /* Center the logo horizontally */
+    width: fit-content; /* Only take up space necessary for the logo */
+  }
+  
+  .logo img {
+    max-width: 100%; /* Ensure it scales within the container */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+   .image-section {
+     flex: 1;
+     background-color: #f3f2ef; 
+   }
+   
+   .image-section img {
+     width: 100%;
+     height: 100%;
+     object-fit: cover; 
+   }
+   .content-section {
+     flex: 1;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     padding: 20px;
+   }
+   
+   h2 {
+     font-size: 2rem;
+     color: #b07cef; 
+   }
+   
+   button {
+     padding: 10px;
+     margin: 10px 0;
+     border-radius: 5px;
+     font-size: 1rem;
+     cursor: pointer;
+   }
+   .logo{
+    display: inline-block;
+  }
+   
+   button:first-of-type {
+     background-color: #ffffff;
+     border: 1px solid #ccc;
+   }
+   
+   button:nth-of-type(2) {
+     background-color: #B98DD4;
+     color: #ffffff;
+   }
+   
+   button:nth-of-type(3) {
+     background-color: #f3f2ef;
+     border: 1px solid #ccc;
+     color: #555;
+   }
+   
+   p {
+     font-size: 0.9rem;
+     color: #555;
+   }
+   
+   a {
+     color: #b17cf1;
+     text-decoration: none;
+   }
+   
+   a:hover {
+     
+     color: #6500e0;
+     text-decoration: none;
+   }
+   .logo img {
+     width: 253px;
+     height: 61px;
+   }
+   .Joinbtn {
+     display: inline-block;
+     padding: 10px 20px; 
+   
+     border-radius: 4px; 
+     text-decoration: none; 
+     color: white; 
+     background-image: linear-gradient(to bottom right,#B98DD4, #2A2996);
+     font-size: 16px; 
+     text-align: center; 
+   }
+   
+   .Joinbtn:hover {
+    border-color: rgb(223, 220, 224); 
+   background-color: white;
+   color: rgb(181, 160, 226);
+   }
+   
+   .line-looper {
+     font-size: 1.5em;
+     font-family: monospace;
+     display: inline;
+   }
+   .content-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Align everything centrally */
+  }
+  
+  .logo {
+    margin-bottom: 20px; /* Add some spacing */
+  }
+  
+   .cursor {
+     display: inline-block;
+     width: 10px;
+     background-color: black;
+     margin-left: 5px;
+     animation: blink 0.7s infinite;
+   }
+   
+   @keyframes blink {
+     0%, 50% {
+       opacity: 1;
+     }
+     50%, 100% {
+       opacity: 0;
+     }
+   }
+ 
+   
+   
