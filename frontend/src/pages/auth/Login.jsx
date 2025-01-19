@@ -53,7 +53,7 @@ const Login = () => {
             const token = data.token;
             Cookies.set('jwt-connectpro', token, { expires: 7, secure: false }); // Set secure to false for local testing
             toast.success("Login success.");
-            dispatch(setUser(data.user)); // Update the authentication state
+            queryClient.invalidateQueries('authUser');
             navigate('/home'); // Navigate after successful login
         },
         onError: (err) => {
