@@ -4,6 +4,7 @@ import {
 	createCommentNotificationEmailTemplate,
 	createConnectionAcceptedEmailTemplate,
 	createWelcomeEmailTemplate,
+  resetPasswordTemplate,
 } from "./emailTemplates.js";
 
 const transport = nodemailer.createTransport({
@@ -75,6 +76,26 @@ export function sendConnectionAcceptedEmail (senderEmail,
     to: senderEmail,
     subject: `${recipientName} accepted your connection request`,
 		html: createConnectionAcceptedEmailTemplate(senderName, recipientName, profileUrl),
+  };
+
+  transport.sendMail(emailOptions, (err, info) => {
+    if (err) {
+      console.log("Error sending email:", err);
+    } else {
+      console.log("Email sent successfully:", info.response);
+    }
+  });
+};
+
+
+
+export function sendOTPEmail (email , otp) {
+    console.log("trying to send OTP .....")
+    const emailOptions = {
+    from: "clone@gmail.com", 
+    to: email,
+    subject: `Reset Password`,
+		html: resetPasswordTemplate(otp) ,
   };
 
   transport.sendMail(emailOptions, (err, info) => {

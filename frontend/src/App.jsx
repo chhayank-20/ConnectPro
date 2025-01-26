@@ -17,18 +17,21 @@ import { setUser } from "./lib/redux/authuser";
 import CreateJob from "./pages/Job/Createjob";
 import ApplliedJobs from "./pages/Job/AppliedJobs";
 // import { useSelector } from "react-redux";
+import Chat from "./pages/message/Chat";
+import ResetPasswordForm from "./pages/auth/ForgotPassword";
 
+localStorage.setItem('logedinUser', "6789299b38964b0876e828e6");
 
 function App() {
 
 	const dispatch = useDispatch();
 	// const currentUser = useSelector((state) => state.authUser);
-	const { data: authUser  } = useQuery({
+	const { data: authUser } = useQuery({
 		queryKey: ["authUser"],
 		queryFn: async () => {
 			try {
 				const res = await axiosInstance.get("/auth/me");
-				console.log(res.data);
+				localStorage.setItem('logedinUser', JSON.stringify(res.data));
 				dispatch(setUser(res.data));	
 				return res.data;
 			} catch (err) {
@@ -41,6 +44,7 @@ function App() {
 		},
 	});
 
+	
 
 	return (
 		<Layout authUser={authUser} >
@@ -50,6 +54,7 @@ function App() {
 				<Route path='/welcome' element={!authUser ? <Welcome /> : <Navigate to={"/"} />} />
 				<Route path='/signup' element={!authUser ? <Login /> : <Navigate to={"/"} />} />
 				<Route path='/login' element={!authUser ? <Login /> : <Navigate to={"/"} />} />
+				<Route path='/forgot-password' element={!authUser ? <ResetPasswordForm /> : <Navigate to={"/"} />} />
 				<Route path='/notifications' element={authUser ? <NotificationsPage /> : <Navigate to={"/login"} />} />
 				<Route path='/network' element={authUser ? <NetworkPage /> : <Navigate to={"/login"} />} />
 				<Route path='/post/:postId' element={authUser ? <PostPage /> : <Navigate to={"/login"} />} />
@@ -59,7 +64,9 @@ function App() {
 				<Route path='/create-job' element={authUser ? <CreateJob /> : <Navigate to={"/login"} />} />
 				<Route path='/applied-job' element={authUser ? <ApplliedJobs /> : <Navigate to={"/login"} />} />
 				{/* <Route path='/applied-job' element={ <AppliedJobs /> } /> */}
-
+				{/* <Route path='/chat' element={<Chat/>} /> */}
+				<Route path='/chat' element={authUser ? <Chat /> : <Navigate to={"/login"} />} />
+				
 			</Routes>
 			<Toaster />
 		</Layout>

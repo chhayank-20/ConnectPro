@@ -5,8 +5,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from "react-hot-toast";
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../lib/redux/authuser';
+// import { useDispatch } from 'react-redux';
+// import { setUser } from '../../lib/redux/authuser';
+// import { GoogleLogin } from "@react-oauth/google"
+// import { jwtDecode } from "jwt-decode";
+// import axios from "axios";
+// import useSocket from '../../lib/socket';
+
 
 const Login = () => {
     const [isSignUp, setIsSignUp] = useState(false);
@@ -16,7 +21,7 @@ const Login = () => {
     const [name, setName] = useState('');
     const navigate = useNavigate();
     const queryClient = useQueryClient();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const toggleForm = () => {
         setIsSignUp(!isSignUp);
@@ -47,6 +52,8 @@ const Login = () => {
     const { mutate: loginMutation, isLoading } = useMutation({
         mutationFn: async (userData) => {
             const response = await axios.post("http://localhost:5000/api/v1/auth/login", userData);
+            localStorage.setItem('logedinUser', JSON.stringify(response.data));
+            // useSocket();
             return response.data; // Ensure you return the response data
         },
         onSuccess: async (data) => { // Use the data from the mutation
@@ -63,13 +70,23 @@ const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        console.log({ email, password });
+        // console.log({ email, password });
         loginMutation({ email, password });
     };
 
     const forgotPassword = () => {
-        alert('Forgot Password');
+        navigate('/forgot-password')
     };
+
+    // const details = async(data)=>{
+    //     const {email,name,sub} = data
+    //     const loginInfo = {
+    //       name,email,password:sub
+    //     }
+    //     const response = await axios.post("http://localhost:5000/api/v1/auth/signup",loginInfo)
+    //     console.log(response.data)
+    // }
+  
 
     return (
         <>
@@ -95,8 +112,18 @@ const Login = () => {
                                         <label htmlFor="login-password">Password</label>
                                         <input id="login-password" type="password" required onChange={(event) => setPassword(event.target.value)} />
                                     </div>
+                                    <p onClick={forgotPassword} className='text-primary cursor-pointer'>forgotPassword</p>
                                 </fieldset>
                                 <button type="submit" onClick={handleLogin} className="btn-login bg-success">Login</button>
+                            
+                            {/* <GoogleLogin
+                                onSuccess={(response) => {
+                                    const data = jwtDecode(response.credential)
+                                    details(data)
+                                }}
+                                onError={() => {
+                                    console.log("Login fail")
+                                }} /> */}
                             </form>
                         </div>
                         <div className={`form-wrapper ${isSignUp ? 'is-active' : ''}`}>
@@ -125,6 +152,7 @@ const Login = () => {
                                     </div>
                                 </fieldset>
                                 <button type="submit" className="btn-signup bg-success">Sign Up</button>
+                            
                             </form>
                         </div>
                     </div>

@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import cloudinary from "../lib/cloudinary.js";
 import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
 dotenv.config();
 
 export const getSuggestedConnections = async (req, res) => {
@@ -77,6 +78,41 @@ export const updateProfile = async (req, res) => {
 		);
 
 		res.json(user);
+	} catch (error) {
+		console.error("Error in updateProfile controller:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
+export const updatePassword = async (req, res) => {
+	const { email , password } = req.body;
+	console.log(email , password);
+	try{
+	if (password.length < 6) {
+		return res.status(400).json({ message: "Password must be at least 6 characters" });
+	}
+
+	const salt = await bcrypt.genSalt(10);
+	const hashedPassword = await bcrypt.hash(password, salt);
+	const user = await User.findOne({email});
+	// console.log(user);
+	const userId = user._id;
+	// console.log(userId);
+
+	const updatedUser = await User.findByIdAndUpdate(
+		userId, 
+		{ password: hashedPassword }, // Set the new password
+		{ new: true } // To return the updated user document
+	  );
+  
+	if (!updatedUser) {
+		return res.status(400).json({ message: "couldnt update password." });
+	}
+	
+	console.log("password updated");
+
+	return res.status(200).json({ message: "Password updated." });
+
 	} catch (error) {
 		console.error("Error in updateProfile controller:", error);
 		res.status(500).json({ message: "Server error" });

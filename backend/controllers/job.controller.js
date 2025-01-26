@@ -1,3 +1,4 @@
+import { response } from "express";
 import Job from "../models/job.model.js";
 import User from "../models/user.model.js";
 import mongoose from 'mongoose';
@@ -137,14 +138,21 @@ export const getJobById = async (request, response) => {
 //  */
 export const applyToJob = async (request, response) => {
   const { id } = request.params; // Job ID
-  const { userId } = request.user; // User ID from authMiddleware
-
+  const { _id } = request.user; // User ID from authMiddleware
+  const userId = _id;
+  // postedBy
   try {
+    // console.log(userId);
     // Find job by ID
     const job = await Job.findById(id);
+    // console.log(job.postedBy._id);
 
     if (!job) {
       return response.status(404).json({ message: "Job not found" });
+    }
+    if(job.postedBy._id.toString() === userId.toString()){
+      console.log("its samme damm");
+      return response.status(404).json({ message: "you cannot apply on your own job." });
     }
 
     // Check if the user has already applied
@@ -167,16 +175,16 @@ export const applyToJob = async (request, response) => {
 };
 
 
-export const getAppliedJobs = async (req, res) => {
+export const getAppliedJobs = async (request, response) => {
   // return res.status(200).json({ message: 'get applied jobs' });
-  console.log("get applied jobs");
-  // const userId = req.user._id; // Get userId from route parameter
-  const userId = "67895f2f679091817fe0b034"
+  console.log("get applied jobs called");
+  const userId = request.user._id; // Get userId from route parameter
+  // const userId = "67895f2f679091817fe0b034"
   // console.log(req.user._id );
   try {
     // Validate the ObjectId
     if (!mongoose.Types.ObjectId.isValid(userId)) {
-      return res.status(400).json({ message: 'Invalid userId format' });
+      return response.status(400).json({ message: 'Invalid userId format' });
     }
 
     // Find all jobs where the user has applied
@@ -186,8 +194,10 @@ export const getAppliedJobs = async (req, res) => {
 
     // If no jobs found
     if (jobs.length === 0) {
-      return res.status(404).json({ message: 'No jobs found for this user .' });
+      return response.status(404).json({ message: 'No jobs found for this user .' });
     }
+
+    // return response.status(200).json({ jobs });
 
     // Map the results to include applied date for each job
     const appliedJobs = jobs.map((job) => {
@@ -204,7 +214,7 @@ export const getAppliedJobs = async (req, res) => {
       };
     });
 
-    return res.status(200).json({ appliedJobs });
+    return response.status(200).json({ appliedJobs });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Server error' });
@@ -233,3 +243,50 @@ export const getJobApplicants = async (request, response) => {
     return response.status(500).json({ error: 'Failed to fetch job applicants' });
   }
 };
+
+
+export const userAppliedJobs = async(request , response) =>{
+  console.log("get applied jobs called");
+  // const userId = request.user._id; // Get userId from route parameter
+  const userId = "67895f2f679091817fe0b034"
+  // console.log(req.user._id );
+  try {
+    // Validate the ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return response.status(400).json({ message: 'Invalid userId format' });
+    }
+
+    // Find all jobs where the user has applied
+    const jobs = await Job.find({
+      'applicants.userId': mongoose.Types.ObjectId(userId),
+    }).select('title company location jobType applicants');  // Select relevant fields
+
+    // If no jobs found
+    if (jobs.length === 0) {
+      return response.status(404).json({ message: 'No jobs found for this user .' });
+    }
+
+    // Map the results to include applied date for each job
+    const appliedJobs = jobs.map((job) => {
+      const applicant = job.applicants.find(
+        (app) => app.userId.toString() === userId
+      );
+      return {
+        jobId: job._id,
+        title: job.title,
+        company: job.company,
+        location: job.location,
+        jobType: job.jobType,
+        appliedAt: applicant ? applicant.appliedAt : null, // Applied date
+      };
+    });
+
+    return response.status(200).json({ appliedJobs });
+  } catch (error) {
+    console.log(error);
+    console.error(error);
+    return response.status(500).json({ message: 'Server error' });
+  }
+}
+
+

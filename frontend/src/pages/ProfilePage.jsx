@@ -7,6 +7,10 @@ import ExperienceSection from "../components/ExperienceSection";
 import EducationSection from "../components/EducationSection";
 import SkillsSection from "../components/SkillsSection";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie'
+
+
 
 const ProfilePage = () => {
 	const { username } = useParams();
@@ -40,6 +44,16 @@ const ProfilePage = () => {
 		updateProfile(updatedData);
 	};
 
+	const handleLogout = () => {
+		Cookies.remove('jwt-connectpro')       
+        toast.success("Logged out successfully");
+        queryClient.invalidateQueries('authUser');
+        const navigate = useNavigate();
+		navigate('/login'); 
+	};
+
+
+
 	return (
 		<div className='max-w-4xl mx-auto p-4'>
 			<ProfileHeader userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
@@ -47,7 +61,7 @@ const ProfilePage = () => {
 			<ExperienceSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
 			<EducationSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
 			<SkillsSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
-			<button className="btn btn-primary bg-primary d-flex justify-content-center align-items-center p-2 p-x-6 m-4">Log out</button>
+			<button  onClick={handleLogout} className="btn btn-primary bg-primary d-flex justify-content-center align-items-center p-2 p-x-6 m-4">Log out</button>
 		</div>
 	);
 };

@@ -118,7 +118,7 @@ const Post = ({ post }) => {
 				<p className='mb-4'>{post.content}</p>
 				{post.image && <img src={post.image} alt='Post content' className='rounded-lg w-full mb-4' />}
 
-				<div className='flex justify-between text-info'>
+				<div className='flex justify-between text-info '>
 					<PostAction
 						icon={<ThumbsUp size={18} className={isLiked ? "text-blue-500  fill-blue-300" : ""} />}
 						text={`Like (${post.likes.length})`}

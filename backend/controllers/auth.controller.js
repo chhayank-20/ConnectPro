@@ -1,9 +1,10 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { sendWelcomeEmail } from "../emails/nodemailer.js";
+import { sendWelcomeEmail , sendOTPEmail } from "../emails/nodemailer.js";
 import dotenv from "dotenv";
 dotenv.config();
+let updatePasswordOTP =0;
 
 export const signup = async (req, res) => {
 	try {
@@ -98,6 +99,23 @@ export const logout = (req, res) => {
 	res.clearCookie("jwt-connectpro");
 	res.json({ message: "Logged out successfully" });
 };
+
+export const forgotPassword = async(req, res)=>{
+	const { userEmail } = req.body;
+	const otp = Math.floor(1000 + Math.random() * 9000);
+	// console.log(otp);
+	updatePasswordOTP = otp;
+	await sendOTPEmail(userEmail , otp);
+	// console.log("otp sent");
+}
+
+export const varifyOTP = (req, res ,next)=>{
+	const { otp } = req.body;
+	if(!otp == updatePasswordOTP){
+		return res.status(500).json({message : "otp mismatch"});
+	}
+	next();
+}
 
 export const getCurrentUser = async (req, res) => {
 	try {

@@ -21,6 +21,13 @@ const Navbar = () => {
 		enabled: !!authUser,
 	});
 
+  const { data: jobs } = useQuery({
+		queryKey: ["jobs"],
+		queryFn: async () => axiosInstance.get("/connections/requests"),
+		enabled: !!authUser,
+	});
+
+
 	const { mutate: logout } = useMutation({
 		mutationFn: () => axiosInstance.post("/auth/logout"),
 		onSuccess: () => {
@@ -79,7 +86,7 @@ const Navbar = () => {
       </li>
       <li className="nav-item pl-6">
         <NavLink 
-          to="/messages" 
+          to="/chat" 
           className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
         >
           <Mail className={({ isActive }) => (isActive ? 'glow' : '')} />

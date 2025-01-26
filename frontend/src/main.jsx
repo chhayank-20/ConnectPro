@@ -8,7 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import {Provider} from 'react-redux';
 import store from './lib/redux/store';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+// import { GoogleOAuthProvider } from "@react-oauth/google"
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
@@ -18,6 +18,10 @@ createRoot(document.getElementById("root")).render(
 			<Provider store={store}>
 				<QueryClientProvider client={queryClient}>
 					<App />
+					{/* <GoogleOAuthProvider clientId='58085916835-rj97dpslo3pf546robcltoi5o3me5ab8.apps.googleusercontent.com'>
+						<App />
+					</GoogleOAuthProvider> */}
+					
 				</QueryClientProvider>
 			</Provider>
 		</BrowserRouter>

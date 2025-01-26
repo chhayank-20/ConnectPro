@@ -5,6 +5,7 @@ import { axiosInstance } from '../../lib/axios';
 import CreateJob from './Createjob.jsx';
 import { useNavigate } from 'react-router-dom';
 import JobNav from './JobNav.jsx';
+import toast from 'react-hot-toast';
 
 const Job = () => {
   const navigate = useNavigate();
@@ -19,6 +20,15 @@ const Job = () => {
     'Analyst'
   ]);
 
+  const handleApplyJob = async(jobId)=>{
+    try {
+      const response = await axiosInstance.post(`/job/apply/${jobId}`);
+      console.log(response.message);
+      toast.success("Applyied successfully" , response);
+    } catch (error) {
+      toast.error("couldnt apply for this job" ,error);
+    }
+  }
 
   const currentUser = useSelector((state) => state.authorizedUser.user); 
 
@@ -47,10 +57,10 @@ const Job = () => {
             <p className="text-secondary">
               Add your preferences to find relevant jobs and get notified about new open roles.
             </p>
-            <div className="d-flex flex-column flex-md-row gap-2 justify-content-md-start mt-3">
+            {/* <div className="d-flex flex-column flex-md-row gap-2 justify-content-md-start mt-3">
               <button className="btn btn-primary btn bg-primary">Actively looking</button>
               <button className="btn btn-outline-primary btn">Casually browsing</button>
-            </div>
+            </div> */}
           </div>
           <div className="col-md-4">
             {/* <img src="header.js" alt="Job search" className="img-fluid" /> */}
@@ -78,13 +88,13 @@ const Job = () => {
                   <h6 className="fw-bold">{job.title}</h6>
                   <p className="text-secondary mb-1">{job.company} - {job.location}</p>
                   <p className="text-primary mb-1">{job.salary}</p>
-                  <button className="btn btn-primary bg-primary btn-sm mt-2">Apply</button>
+                  <button onClick={()=>handleApplyJob(job._id)} className="btn btn-primary bg-primary btn-sm mt-2">Apply</button>
                 </div>
               </div>
             </div>
           ))}
         </div>
-        <button className="btn btn-link w-100 mt-3">Show all →</button>
+        {/* <button className="btn btn-link w-100 mt-3">Show all →</button> */}
       </div>
 
       {/* Suggested Job Searches */}
