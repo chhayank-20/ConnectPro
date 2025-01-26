@@ -51,7 +51,7 @@ const ChatSidebar = () => {
 
     // Ensure userConversations is not undefined before mapping over it
     if (!userConversations || userConversations.length === 0) {
-        return <div>No conversations available</div>;
+        return <div>No conversations / connections available</div>;
     }
 
     return (

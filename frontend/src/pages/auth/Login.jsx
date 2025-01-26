@@ -5,12 +5,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from "react-hot-toast";
 import Cookies from 'js-cookie';
-// import { useDispatch } from 'react-redux';
-// import { setUser } from '../../lib/redux/authuser';
-// import { GoogleLogin } from "@react-oauth/google"
-// import { jwtDecode } from "jwt-decode";
-// import axios from "axios";
-// import useSocket from '../../lib/socket';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../lib/redux/authuser';
+import { GoogleLogin } from "@react-oauth/google"
+import { jwtDecode } from "jwt-decode";
 
 
 const Login = () => {
@@ -21,11 +19,12 @@ const Login = () => {
     const [name, setName] = useState('');
     const navigate = useNavigate();
     const queryClient = useQueryClient();
-    // const dispatch = useDispatch();
 
     const toggleForm = () => {
-        setIsSignUp(!isSignUp);
+        setIsSignUp(!isSignUp)
     };
+    
+    
 
     const handleSignUp = async (e) => {
         e.preventDefault();
@@ -70,7 +69,6 @@ const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        // console.log({ email, password });
         loginMutation({ email, password });
     };
 
@@ -78,14 +76,38 @@ const Login = () => {
         navigate('/forgot-password')
     };
 
-    // const details = async(data)=>{
-    //     const {email,name,sub} = data
-    //     const loginInfo = {
-    //       name,email,password:sub
-    //     }
-    //     const response = await axios.post("http://localhost:5000/api/v1/auth/signup",loginInfo)
-    //     console.log(response.data)
-    // }
+    const signUpDetails = async(data)=>{
+        const {email,name,sub} = data
+        console.log(email , name , sub);
+        const userData = {
+            name :name,
+            username :name,
+            email :email,
+            password :sub,
+        };
+        const password = sub;
+        // console.log(userData);
+        try {
+            const response = await axios.post("http://localhost:5000/api/v1/auth/signup", userData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            toast.success('Sign up successful');
+            // console.log('Sign up successful:', response.data);
+            loginMutation({ email, password });
+        } catch (error) {
+            console.error('Error:', error);
+            // toast.error('Error in sign up: ' + error.response.data.message);
+        }
+    }
+  
+    const loginDetails = async(data)=>{
+        const {email,name,sub} = data
+        console.log(email , name , sub);
+        const password = sub;
+        await loginMutation({ email, password });
+    }
   
 
     return (
@@ -97,7 +119,7 @@ const Login = () => {
                 <section className="forms-section">
                     <div className="forms">
                         <div className={`form-wrapper ${isSignUp ? '' : 'is-active'}`}>
-                            <button type="button" className="switcher switcher-login text-danger" onClick={toggleForm}>
+                            <button type="button" className="switcher switcher-login bg-transparent text-danger" onClick={toggleForm}>
                                 Login
                                 <span className="underline"></span>
                             </button>
@@ -115,19 +137,23 @@ const Login = () => {
                                     <p onClick={forgotPassword} className='text-primary cursor-pointer'>forgotPassword</p>
                                 </fieldset>
                                 <button type="submit" onClick={handleLogin} className="btn-login bg-success">Login</button>
-                            
-                            {/* <GoogleLogin
-                                onSuccess={(response) => {
-                                    const data = jwtDecode(response.credential)
-                                    details(data)
-                                }}
-                                onError={() => {
-                                    console.log("Login fail")
-                                }} /> */}
+                            <div id="googleLoginDiv">
+                                {!isSignUp ? (
+                                <GoogleLogin
+                                    onSuccess={(response) => {
+                                    const data = jwtDecode(response.credential);
+                                    loginDetails(data);
+                                    }}
+                                    onError={() => {
+                                    console.log("Login fail");
+                                    }}
+                                />
+                                ) : null}
+                            </div>
                             </form>
                         </div>
                         <div className={`form-wrapper ${isSignUp ? 'is-active' : ''}`}>
-                            <button type="button" className="switcher switcher-signup bg-secondary text-danger" onClick={toggleForm}>
+                            <button type="button" className="switcher switcher-signup bg-transparent text-danger" onClick={toggleForm}>
                                 Sign Up
                                 <span className="underline"></span>
                             </button>
@@ -152,7 +178,19 @@ const Login = () => {
                                     </div>
                                 </fieldset>
                                 <button type="submit" className="btn-signup bg-success">Sign Up</button>
-                            
+                                <div id="googleSignUpDiv" >
+                                {isSignUp ? (
+                                    <GoogleLogin
+                                        onSuccess={(response) => {
+                                        const data = jwtDecode(response.credential);
+                                        signUpDetails(data);
+                                        }}
+                                        onError={() => {
+                                        console.log("Login fail");
+                                        }}
+                                    />
+                                    ) : null}
+                                </div>
                             </form>
                         </div>
                     </div>

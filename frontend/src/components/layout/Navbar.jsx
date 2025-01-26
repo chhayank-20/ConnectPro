@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../../lib/axios";
-import { Link, Navigate , NavLink } from "react-router-dom";
+import { Link, Navigate , NavLink, useNavigate } from "react-router-dom";
 import { Bell, Home, LogOut, Briefcase ,Mail ,User, Users } from "lucide-react";
+import Cookies from 'js-cookie';
+import toast from "react-hot-toast";
 import './Navbar.css'; 
 
 const Navbar = () => {
+  // const navigate = useNavigate();
 	const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 	const queryClient = useQueryClient();
 
@@ -35,9 +38,31 @@ const Navbar = () => {
 		},
 	});
 
-	const unreadNotificationCount = notifications?.data.filter((notif) => !notif.read).length;
-	const unreadConnectionRequestsCount = connectionRequests?.data?.length;
-	const [menuOpen, setMenuOpen] = useState(false);
+  const searchUser = async()=>{
+    const search = document.querySelector('#search');
+    // alert(search.value);
+    const response= await axiosInstance.get(`/users/get-user-by-name` , {name : search.value});
+    console.log(response.data);
+
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+        searchUser();
+    }
+};
+
+const handleLogout = () => {
+  // alert("logging out");
+      Cookies.remove('jwt-connectpro')       
+      toast.success("Logged out successfully");
+      queryClient.invalidateQueries('authUser');
+      const navigate = useNavigate();
+      navigate('/login'); 
+};
+
+
+  const [menuOpen, setMenuOpen] = useState(false);
 	return (
 
 		<>
@@ -109,12 +134,14 @@ const Navbar = () => {
         </NavLink>
       </li>
 
-          </ul>
+        </ul>
 
-          <form className="d-flex">
-            <input className="form-control me-4" type="search" placeholder="Search..." aria-label="Search" />
-            <button className="btn btn-outline-primary" type="submit">🔍</button>
-          </form>
+          <div className="d-flex">
+            {/* <input id="search" onKeyDown={handleKeyDown} className="rounded p-2 me-4" type="search" placeholder="Search..." aria-label="Search" /> */}
+            {/* <button  className="btn btn-outline-primary" >🔍</button> */}
+            <button  onClick={handleLogout} className="btn  bg-blue d-flex justify-content-center align-items-center  "> <LogOut/> logout</button>
+		
+          </div>
         </div>
       </div>
     </nav>

@@ -15,7 +15,7 @@ const router = express.Router();
 
 // Job Routes
 // router.get('/user-applied-jobs'  , getAppliedJobs);
-console.log("job route entered")
+// console.log("job route entered")
 // Create a new job
 router.post('/create', protectRoute, createJob);
 

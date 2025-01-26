@@ -3,7 +3,7 @@ import axios from 'axios';
 import { axiosInstance } from '../../lib/axios';
 import toast from "react-hot-toast";
 import {useSelector} from 'react-redux';
-import JobItem from './JobItem';
+// import JobItem from './JobItem';
 import JobNav from './JobNav';  
 
 const CreateJob = () => {
@@ -64,8 +64,10 @@ const CreateJob = () => {
 
   return ( <>
         <JobNav/>
-    <div className="container my-4">
-      <form  className="bg-light p-4 rounded shadow-sm">
+        
+<div className="container bg-white rounded my-6">
+    <div className="container my-6">
+      <form  className="bg-light p-6 rounded shadow-sm">
     <div className="h2 d-flex justify-content-center align-items-center">Create Job</div>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">Job Title</label>
@@ -156,6 +158,7 @@ const CreateJob = () => {
         </div>
         <button onClick={handleSubmit} type="submit" className="btn btn-primary bg-primary">Create Job</button>
       </form>
+    </div>
     </div>
               {/* <div>
                 <h2>Your Jobs</h2>

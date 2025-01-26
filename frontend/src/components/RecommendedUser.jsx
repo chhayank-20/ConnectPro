@@ -58,7 +58,7 @@ const RecommendedUser = ({ user }) => {
 			case "pending":
 				return (
 					<button
-						className='px-3 py-1 rounded-full text-sm bg-yellow-500 text-white flex items-center'
+						className='px-3 py-1 bg-primary rounded-full text-sm bg-yellow-500 text-white flex items-center'
 						disabled
 					>
 						<Clock size={16} className='mr-1' />
