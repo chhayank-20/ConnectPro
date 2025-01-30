@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./welcome.css";
 
 const lines = [
@@ -10,7 +10,6 @@ const lines = [
 ];
 
 const LineLooper = () => {
-  const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [currentText, setCurrentText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
@@ -23,7 +22,7 @@ const LineLooper = () => {
     const handleTyping = () => {
       const currentLine = lines[loopNum % lines.length];
       const updatedText = isDeleting
-        ? currentLine.substring(0, currentText.length - 3)
+        ? currentLine.substring(0, currentText.length - 1)
         : currentLine.substring(0, currentText.length + 1);
 
       setCurrentText(updatedText);
@@ -33,7 +32,6 @@ const LineLooper = () => {
       } else if (isDeleting && updatedText === "") {
         setIsDeleting(false);
         setLoopNum(loopNum + 1);
-        setCurrentLineIndex((prevIndex) => (prevIndex + 1) % lines.length);
       } else {
         timeout = setTimeout(handleTyping, typingSpeed);
       }
@@ -44,7 +42,7 @@ const LineLooper = () => {
     return () => clearTimeout(timeout);
   }, [currentText, isDeleting, loopNum]);
 
-  return ( 
+  return (
     <div className="line-looper">
       <span>{currentText}</span>
       <span className="cursor" aria-hidden="true">|</span>
@@ -54,21 +52,18 @@ const LineLooper = () => {
 
 const Welcome = () => {
   return (
-    <div className="welcome-container">
-  <div className="image-section">
-    <img src="./images/welcome.jpg" alt="People" />
-  </div>
-  <div className="content-section">
-    <div className="logo">
-      <img src="./images/logo.png" alt="Logo" />
-    </div>
-    <h2>Welcome to your Professional Community</h2>
-    <LineLooper />
+    <div className="welcome">
+      <div className="hero-img">
+        <img src="../public/images/hero-img.png" alt="Hero" />
+      </div>
+      <div className="content-section">
+        <div className="logo">
+          <img src="/images/logo.png" alt="Logo" />
+        </div>
+        <h2>Welcome to your Professional Community</h2>
+        <LineLooper />
         <p>
-          By clicking <Link to="/signup"><strong>Join Now</strong></Link>, you can create your personalized profile, connect with industry experts, and explore career opportunities tailored to your skills.
-        </p>
-        <p>
-          <a href="/">User Agreement</a>, <a href="/">Privacy Policy</a>, and <a href="/">Cookie Policy</a>.
+          By clicking <Link to="/signup"><strong className="LineJoin">Join Now</strong></Link>, you can create your personalized profile, connect with industry experts, and explore career opportunities tailored to your skills.
         </p>
         <p>
           New to ConnectPro? <Link to="/signup" className="Joinbtn">Join Now!</Link>

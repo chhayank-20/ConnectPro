@@ -1,0 +1,19 @@
+/* Normal purple color for buttons */
+.btn-purple {
+  background-color: #6a0dad; /* Purple */
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Lighter shade on hover */
+.btn-purple:hover {
+  background-color: #9b4dca; /* Lighter purple */
+  color: white;
+}
+
+/* Darker shade when the button is active (clicked) */
+.btn-purple:active {
+  background-color: #4c0073; /* Darker purple */
+  color: white;
+}

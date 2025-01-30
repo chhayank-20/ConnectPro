@@ -66,10 +66,10 @@ const handleLogout = () => {
 	return (
 
 		<>
-		    <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow" style={{ background: 'linear-gradient(to right,rgb(206, 158, 236), #131187)' }}>
+		    <nav className="navbar navbar-expand-lg navbar-light bg-white shadow">
       <div className="container-fluid " >
         <div className="navbar-brand" style={{ color: '#0073b1', fontWeight: 'bold' }}>
-          Connect Pro
+        <img src='./images/image.png' alt="Logo" width={'230px'} height={'20px'}/>
         </div>
         <button
           className="navbar-toggler"
@@ -139,7 +139,9 @@ const handleLogout = () => {
           <div className="d-flex">
             {/* <input id="search" onKeyDown={handleKeyDown} className="rounded p-2 me-4" type="search" placeholder="Search..." aria-label="Search" /> */}
             {/* <button  className="btn btn-outline-primary" >🔍</button> */}
-            <button  onClick={handleLogout} className="btn  bg-blue d-flex justify-content-center align-items-center  "> <LogOut/> logout</button>
+            <button onClick={handleLogout} className="btn bg-blue d-flex justify-content-center align-items-center">
+  <LogOut /> Logout
+</button>
 		
           </div>
         </div>

@@ -1,0 +1,100 @@
+/* Button styles */
+.btn.bg-blue {
+     background: linear-gradient(to right, #B98DD4, #2A2996);
+     color: white;
+     border: none;
+     padding: 10px 20px;
+     border-radius: 10px;
+     font-size: 16px;
+     font-weight: bold;
+     display: flex;
+     align-items: center;
+     gap: 8px;
+     transition: background 2s ease; /* Slower transition for background */
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   }
+   
+body {
+	/* margin: 0; */
+	
+	font-family: Roboto, -apple-system, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+	/* background: #3b4465; */
+}
+
+   
+   .btn.bg-blue:hover {
+     background: linear-gradient(to right, #2A2996, #B98DD4);
+     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+     transform: translateY(-2px);
+   }
+   
+   .btn.bg-blue svg {
+     font-size: 20px;
+     color: white;
+   }
+   
+   .btn.bg-blue:active {
+     transform: scale(0.95);
+   }
+span{
+     color: #792a98; 
+     background-color: #1c4a7d;
+   }
+   
+   /* Additional Button Styling */
+   .bg-primary {
+     background-color: #7f00b1;
+   }
+   
+   .bg-primary-dark {
+     background-color: #59007a;
+   }
+   
+   .bg-base-100 {
+     background-color: #f0f0f0;
+   }
+   
+   .bg-base-200 {
+     background-color: #d9d9d9;
+   }
+   
+   .text-info {
+     color: #2b6cb0;
+   }
+   
+   .text-info-dark {
+     color: #1c4a7d;
+   }
+   
+   .cursor-pointer {
+     cursor: pointer;
+   }
+   
+   .transition-colors {
+     transition: color 0.3s ease;
+   }
+   
+   .duration-200 {
+     transition-duration: 0.2s;
+   }
+   
+   .resize-none {
+     resize: none;
+   }
+   
+   .focus\:outline-none {
+     outline: none;
+   }
+   
+   .min-h-\[100px\] {
+     min-height: 100px;
+   }
+   
+   .hover\:bg-base-200:hover {
+     background-color: #d9d9d9;
+   }
+   
+   .w-full {
+     width: 100%;
+   }
+   

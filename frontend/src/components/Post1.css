@@ -1,0 +1,74 @@
+/* Post1.css or global CSS file */
+.no-underline {
+  text-decoration: none ;
+}
+
+body {
+	/* margin: 0; */
+	
+	font-family: Roboto, -apple-system, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+	/* background: #3b4465; */
+}
+
+
+.icon-custom {
+     border: none; /* Ensures there's no border */
+     background-color: transparent; /* Makes sure the background is transparent */
+     padding: 5px; /* Optional: Adds padding around the icon */
+     border-radius: 50%; /* Optional: Makes the icon circular */
+     transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition */
+     color: #800080; /* Sets the icon color to purple */
+     
+   
+   }
+   .text-purple {
+     color: #800080; /* Purple color */
+   }
+   
+   .icon-custom:hover {
+     background-color: #f0f0f0; /* Optional: A subtle hover effect */
+     transform: scale(1.2); /* Enlarges the icon */
+     color: #800080; /* Sets the icon color to purple */}
+   button {
+     background-color: transparent; /* Ensures button background is transparent */
+     border: none; /* Removes button border */
+   }
+   /* CSS for the gradient line */
+.gradient-line {
+  height: 2px; /* Height of the line */
+  background: linear-gradient(to right, #800080, #8b1d8b); /* Gradient from purple to red */
+  margin-bottom: 20px; /* Space between the line and the content */
+}
+
+/* Existing Post1.css styles */
+.no-underline {
+  text-decoration: none;
+}
+
+body {
+  font-family: Roboto, -apple-system, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+}
+
+.icon-custom {
+  border: none;
+  background-color: transparent;
+  padding: 5px;
+  border-radius: 50%;
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: #330080;
+}
+
+.text-purple {
+  color: #800080;
+}
+
+.icon-custom:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.2);
+  color: #800080;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+}

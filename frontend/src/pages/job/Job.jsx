@@ -34,14 +34,14 @@ const Job = () => {
     <>
       <JobNav />
       <div className="container my-4 p-3 bg-light rounded">
-        <div className="h2 d-flex justify-content-center align-items-center">JOBS</div>
+        <div className="h2 d-flex justify-content-center align-items-center  ">JOBS</div>
 
         {/* Header */}
-        <div className="p-4 bg-white rounded shadow-sm text-center">
+        <div className="p-4 bg-white rounded shadow-sm text-center ">
           <div className="row align-items-center">
             <div className="col-md-8 text-md-start">
-              <h5 className="fw-bold">{currentUser.name}, are you looking for a new job?</h5>
-              <p className="text-secondary">
+              <h5 className="fw-bold text-purple-800">{currentUser.name}, are you looking for a new job?</h5>
+              <p className="text-purple-600">
                 Add your preferences to find relevant jobs and get notified about new open roles.
               </p>
             </div>
@@ -51,27 +51,25 @@ const Job = () => {
 
         {/* Job Cards */}
         <div className="mt-4 bg-white rounded shadow-sm p-4">
-          <h5 className="fw-bold">Top job picks for you</h5>
-          <p className="text-secondary">
+          <h5 className="fw-bold text-purple-800">Top job picks for you</h5>
+          <p className="text-purple-600">
             Based on your profile, preferences, and activity like applies, searches, and saves
           </p>
           <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
             {jobs.map((job, index) => (
               <div key={job._id} className="col">
                 <div className="card h-100 shadow-sm">
-                  {/* Uncomment to show company logo */}
-                  {/* <img src={job.logo} alt="Company logo" className="card-img-top" /> */}
                   <div className="card-body d-flex flex-column">
-                    <h5 className="card-title">{job.title}</h5>
-                    <p className="card-text">{job.description}</p>
-                    <p className="text-muted">
+                    <h5 className="card-title text-purple-700">{job.title}</h5>
+                    <p className="card-text text-purple-600">{job.description}</p>
+                    <p className="text-purple-500">
                       <strong>{job.company}</strong> - {job.location}
                     </p>
-                    <p className="text-primary">{job.salary}</p>
+                    <p className="text-purple-400">{job.salary}</p>
                     <div className="mt-auto">
                       <button
                         onClick={() => handleApplyJob(job._id)}
-                        className="btn bg-primary btn-primary w-100"
+                        className="btn bg-blue d-flex justify-content-center align-items-center"
                       >
                         Apply Now
                       </button>

@@ -4,26 +4,81 @@ import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 dotenv.config();
 
+// export const getSuggestedConnections (older) = async (req, res) => {
+// 	try {
+// 		const currentUser = await User.findById(req.user._id).select("connections");
+
+// 		// find users who are not already connected, and also do not recommend our own profile!! right?
+// 		const suggestedUser = await User.find({
+// 			_id: {
+// 				$ne: req.user._id,
+// 				$nin: currentUser.connections,
+// 			},
+// 		})
+// 			.select("name username profilePicture headline")
+// 			.limit(3);
+
+// 		res.json(suggestedUser);
+// 	} catch (error) {
+// 		console.error("Error in getSuggestedConnections controller:", error);
+// 		res.status(500).json({ message: "Server error" });
+// 	}
+// };
+
+
 export const getSuggestedConnections = async (req, res) => {
 	try {
-		const currentUser = await User.findById(req.user._id).select("connections");
-
-		// find users who are not already connected, and also do not recommend our own profile!! right?
-		const suggestedUser = await User.find({
-			_id: {
-				$ne: req.user._id,
-				$nin: currentUser.connections,
-			},
+	  const currentUser = await User.findById(req.user._id).select("connections interest");
+  
+	  // Check if the user has interests
+	  const userInterests = currentUser.interest;
+  
+	  // If the user has interests, suggest people with similar interests
+	  let suggestedUsers;
+  
+	  if (userInterests.length > 0) {
+		// Find users who share any of the user's interests and are not already connected
+		suggestedUsers = await User.find({
+		  _id: { $ne: req.user._id, $nin: currentUser.connections },
+		  interest: { $in: userInterests }, // Matching users with at least one common interest
 		})
-			.select("name username profilePicture headline")
-			.limit(3);
-
-		res.json(suggestedUser);
+		  .select("name username profilePicture headline")
+		  .limit(3);
+	  }
+  
+	  // If no users with similar interests, or not enough users, fall back to random suggestions
+	  if (!suggestedUsers || suggestedUsers.length < 3) {
+		// Find random users who are not already connected and exclude the current user
+		const randomSuggestions = await User.aggregate([
+		  {
+			$match: {
+			  _id: { $ne: req.user._id, $nin: currentUser.connections },
+			},
+		  },
+		  {
+			$sample: { size: 3 }, // Get random 3 users
+		  },
+		  {
+			$project: {
+			  name: 1,
+			  username: 1,
+			  profilePicture: 1,
+			  headline: 1,
+			},
+		  },
+		]);
+  
+		// If no users with interests are found, return random suggestions
+		suggestedUsers = randomSuggestions;
+	  }
+  
+	  res.json(suggestedUsers);
 	} catch (error) {
-		console.error("Error in getSuggestedConnections controller:", error);
-		res.status(500).json({ message: "Server error" });
+	  console.error("Error in getSuggestedConnections controller:", error);
+	  res.status(500).json({ message: "Server error" });
 	}
 };
+  
 
 export const getPublicProfile = async (req, res) => {
 	try {
@@ -51,12 +106,13 @@ export const updateProfile = async (req, res) => {
 			"profilePicture",
 			"bannerImg",
 			"skills",
+			"interest",
 			"experience",
 			"education",
 		];
 
 		const updatedData = {};
-
+		// console.log(req.body);
 		for (const field of allowedFields) {
 			if (req.body[field]) {
 				updatedData[field] = req.body[field];

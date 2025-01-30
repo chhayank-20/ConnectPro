@@ -1,0 +1,52 @@
+/* Remove underline globally */
+.no-underline {
+     text-decoration: none !important;
+   }
+   
+body {
+	/* margin: 0; */
+	
+	font-family: Roboto, -apple-system, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+	/* background: #3b4465; */
+}
+
+   
+   /* Styling for the user name and profile section */
+   h2 {
+     color: #7b2996; /* For the name */
+     margin-top: 10px; /* Space between image and name */
+   }
+   
+   p {
+     color: #B98DD4; /* For user headline */
+   }
+   /* Custom styles for the headline */
+.custom-headline {
+     font-style: italic;
+     margin-top: 8px; /* Space between the name and headline */
+     color: #555; /* Slightly darker text for the headline */
+   }
+   
+   /* Custom styles for the connections count */
+   .custom-connections {
+     margin-top: 4px; /* Space between headline and connections */
+     color: #999; /* Lighter gray for the connections count */
+     font-size: 12px; /* Slightly smaller text */
+   }
+   
+   /* Optional hover effect for the connections text */
+   .custom-connections:hover {
+     color: #B98DD4; /* Change color on hover */
+     cursor: pointer;
+   }
+   
+   
+   /* Styling for the links */
+   a {
+     text-decoration: none !important;
+   }
+   
+   .text-xs {
+     color: #666; /* Lighter color for connections count */
+   }
+   

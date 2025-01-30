@@ -3,19 +3,45 @@ import Post from "../models/post.model.js";
 import Notification from "../models/notification.model.js";
 import { sendCommentNotificationEmail } from "../emails/nodemailer.js";
 
-export const getFeedPosts = async (req, res) => {
-	try {
-		const posts = await Post.find({ author: { $in: [...req.user.connections, req.user._id] } })
-			.populate("author", "name username profilePicture headline")
-			.populate("comments.user", "name profilePicture")
-			.sort({ createdAt: -1 });
+// export const getFeedPosts (older) = async (req, res) => {
+// 	try {
+// 		const posts = await Post.find({ author: { $in: [...req.user.connections, req.user._id] } })
+// 			.populate("author", "name username profilePicture headline")
+// 			.populate("comments.user", "name profilePicture")
+// 			.sort({ createdAt: -1 });
 
-		res.status(200).json(posts);
+// 		res.status(200).json(posts);
+// 	} catch (error) {
+// 		console.error("Error in getFeedPosts controller:", error);
+// 		res.status(500).json({ message: "Server error" });
+// 	}
+// };
+
+export const getFeedPosts = async (req, res) => { 
+	try {
+	  let posts;
+  
+	  // If user has connections, fetch posts from connections
+	  if (req.user.connections.length > 0) {
+		posts = await Post.find({ author: { $in: [...req.user.connections, req.user._id] } })
+		  .populate("author", "name username profilePicture headline")
+		  .populate("comments.user", "name profilePicture")
+		  .sort({ createdAt: -1 });
+	  } else {
+		// If the user has no connections, fetch posts from all users except the current user
+		posts = await Post.find({ author: { $ne: req.user._id } })
+		  .populate("author", "name username profilePicture headline")
+		  .populate("comments.user", "name profilePicture")
+		  .sort({ createdAt: -1 });
+	  }
+  
+	  res.status(200).json(posts);
 	} catch (error) {
-		console.error("Error in getFeedPosts controller:", error);
-		res.status(500).json({ message: "Server error" });
+	  console.error("Error in getFeedPosts controller:", error);
+	  res.status(500).json({ message: "Server error" });
 	}
-};
+  };
+  
 
 export const createPost = async (req, res) => {
 	try {

@@ -85,7 +85,7 @@ const ProfileHeader = ({ userData, onSave, isOwnProfile }) => {
 							Connected
 						</div>
 						<button
-							className={`${baseClass} bg-danger bg-red-500 hover:bg-red-600 text-sm`}
+							className={`${baseClass} bg-red-500 hover:bg-red-600 text-sm`}
 							onClick={() => removeConnection(userData._id)}
 						>
 							<X size={20} className='mr-2' />

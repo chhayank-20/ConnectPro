@@ -1,10 +1,180 @@
+
+body {
+	/* margin: 0; */
+	
+	font-family: Roboto, -apple-system, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+	/* background: #3b4465; */
+}
+
+
 .glow {
-    filter: drop-shadow(0 0 5px rgba(0, 115, 177, 0.8)) 
-            drop-shadow(0 0 10px rgba(0, 115, 177, 0.6));
-    transition: filter 0.3s ease;
-  }
-  
+filter: drop-shadow(0 0 5px rgba(0, 115, 177, 0.8)) 
+    drop-shadow(0 0 10px rgba(0, 115, 177, 0.6));
+transition: filter 0.3s ease;
+}
+
+
+
 .nav-link.active .glow {
-    filter: drop-shadow(0 0 10px rgba(0, 115, 177, 1)) 
-            drop-shadow(0 0 20px rgba(0, 115, 177, 0.8));
+filter: drop-shadow(0 0 10px rgb(104, 10, 138)) 
+    drop-shadow(0 0 20px rgba(0, 115, 177, 0.8));
+}
+.nav-link {
+color: #ffffff;
+text-decoration: none;
+position: relative;
+padding-bottom: 5px;
+}
+
+.nav-link.active {
+font-weight: bold;
+color: #79278f;
+}
+
+.nav-link.active::after {
+content: "";
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+height: 2px;
+background-color: #7300b1; /* Match your theme color */
+transform: scaleX(1);
+transition: transform 0.3s ease;
+}
+
+.nav-link:not(.active)::after {
+transform: scaleX(0);
+}
+.nav-link {
+color: #8500b1;
+text-decoration: none;
+position: relative;
+padding-bottom: 5px;
+transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+color: #5a0080; /* Darker shade on hover */
+}
+
+.nav-link.active:hover {
+color: #aa5bbb; /* Even darker shade for the active link */
+}
+.form-control {
+border-radius: 20px;
+border: 1px solid #9f00b1;
+}
+
+.btn-outline-primary {
+border-radius: 20px;
+background-color: #7f00b1;
+color: rgb(100, 34, 150);
+border: none;
+}
+
+.btn-outline-primary:hover {
+background-color: #ffffff;
+}
+.navbar-brand {
+font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+.navbar-nav {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.nav-item {
+  margin-bottom: 10px;
+}
+}
+.back-to-top {
+position: fixed;
+bottom: 20px;
+right: 20px;
+background-color: #ab55ab;
+color: white;
+border: none;
+border-radius: 50%;
+padding: 10px;
+font-size: 18px;
+cursor: pointer;
+display: none;
+}
+
+.back-to-top:hover {
+  background-image: linear-gradient(to top, #B98DD4, #2A2996);
+}
+
+body {
+scroll-behavior: smooth;
+}
+
+/* Show the button when scrolled down */
+body.scrolled .back-to-top {
+display: block;
+}
+/* Change default icon color to purple */
+svg {
+  color: #873bb6; /* Purple color */
+  transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+/* Apply hover effect */
+svg:hover {
+  color: #aa5bbb; /* Lighter purple on hover */
+}
+
+/* Active icons glow effect */
+.nav-link.active svg {
+  color: #8a2be2; /* Bright purple for active state */
+  filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.8)) drop-shadow(0 0 20px rgba(138, 43, 226, 0.6));
+}
+.btn.bg-blue {
+  background: linear-gradient(to right, #B98DD4, #2A2996);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(122, 27, 27, 0.1);
+}
+
+.btn.bg-blue:hover {
+  background: linear-gradient(to right, #2A2996, #B98DD4);
+  box-shadow: 0 6px 10px rgba(239, 60, 60, 0.15);
+   color: white;
+  transform: translateY(-2px);
+}
+a {
+  scroll-behavior: smooth; /* Ensures smooth scrolling when clicking anchor links */
+}
+
+
+.btn.bg-blue svg {
+  font-size: 20px;
+  color: white;
+}
+
+.btn.bg-blue:active {
+  transform: scale(0.95);
+  
+}
+.btn:hover {
+  transform: scale(1.05); /* Slight scale up for hover effect */
+  box-shadow: 0 4px 10px rgba(0, 115, 177, 0.3);
+  background: linear-gradient(to left, #B98DD4, #2A2996);
+  transition: all 0.3s ease-out;
+}
+
+.btn:active {
+  transform: scale(0.98);
 }

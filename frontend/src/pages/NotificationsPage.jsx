@@ -142,7 +142,7 @@ const NotificationsPage = () => {
 										</div>
 
 										<div className='flex gap-2'>
-											{!notification.read && (
+											{/* {!notification.read && (
 												<button
 													onClick={() => markAsReadMutation(notification._id)}
 													className='p-1 bg-blue-100 text-blue-600 rounded hover:bg-blue-200 transition-colors'
@@ -150,7 +150,7 @@ const NotificationsPage = () => {
 												>
 													<Eye size={16} />
 												</button>
-											)}
+											)} */}
 
 											<button
 												onClick={() => deleteNotificationMutation(notification._id)}

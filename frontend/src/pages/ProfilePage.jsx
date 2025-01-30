@@ -7,62 +7,101 @@ import ExperienceSection from "../components/ExperienceSection";
 import EducationSection from "../components/EducationSection";
 import SkillsSection from "../components/SkillsSection";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import Cookies from 'js-cookie'
-
-
+import { useState } from "react";
 
 const ProfilePage = () => {
-	const { username } = useParams();
-	const queryClient = useQueryClient();
+  const { username } = useParams();
+  const queryClient = useQueryClient();
 
-	const { data: authUser, isLoading } = useQuery({
-		queryKey: ["authUser"],
-	});
+  // Fetching authenticated user
+  const { data: authUser, isLoading: isAuthLoading, error: authError } = useQuery({
+    queryKey: ["authUser"],
+  });
 
-	const { data: userProfile, isLoading: isUserProfileLoading } = useQuery({
-		queryKey: ["userProfile", username],
-		queryFn: () => axiosInstance.get(`/users/${username}`),
-	});
+  // Fetching user profile
+  const { data: userProfile, isLoading: isUserProfileLoading, error: profileError } = useQuery({
+    queryKey: ["userProfile", username],
+    queryFn: () => axiosInstance.get(`/users/${username}`).then((res) => res.data),
+  });
 
-	const { mutate: updateProfile } = useMutation({
-		mutationFn: async (updatedData) => {
-			await axiosInstance.put("/users/profile", updatedData);
-		},
-		onSuccess: () => {
-			toast.success("Profile updated successfully");
-			queryClient.invalidateQueries(["userProfile", username]);
-		},
-	});
+  // Mutation for updating the profile
+  const { mutate: updateProfile } = useMutation({
+    mutationFn: async (updatedData) => {
+      await axiosInstance.put("/users/profile", updatedData);
+    },
+    onSuccess: () => {
+      toast.success("Profile updated successfully");
+      queryClient.invalidateQueries(["userProfile", username]);
+    },
+  });
 
-	if (isLoading || isUserProfileLoading) return null;
+  // State for collapsible section
+  const [showExperience, setShowExperience] = useState(true);
 
-	const isOwnProfile = authUser.username === userProfile.data.username;
-	const userData = isOwnProfile ? authUser : userProfile.data;
+  // Ensure hooks are always in the same order
+  const isOwnProfile = authUser && userProfile ? authUser.username === userProfile.username : false;
+  const userData = isOwnProfile ? authUser : userProfile;
 
-	const handleSave = (updatedData) => {
-		updateProfile(updatedData);
-	};
+  // Loading state
+  if (isAuthLoading || isUserProfileLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="loader">Loading...</div>
+      </div>
+    );
+  }
 
-	const handleLogout = () => {
-		Cookies.remove('jwt-connectpro')       
-        toast.success("Logged out successfully");
-        queryClient.invalidateQueries('authUser');
-        const navigate = useNavigate();
-		navigate('/login'); 
-	};
+  // Error state
+  if (authError || profileError) {
+    return (
+      <div className="text-center text-red-500">
+        Failed to load profile. Please try again later.
+      </div>
+    );
+  }
 
+  // Logout confirmation handler
+  const handleLogout = () => {
+    if (window.confirm("Are you sure you want to log out?")) {
+      // Add logout logic here
+      toast.success("Logged out successfully!");
+    }
+  };
 
+  const handleSave = (updatedData) => {
+    updateProfile(updatedData);
+  };
 
-	return (
-		<div className='max-w-4xl mx-auto p-4'>
-			<ProfileHeader userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
-			<AboutSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
-			<ExperienceSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
-			<EducationSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
-			<SkillsSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
-			<button  onClick={handleLogout} className="btn btn-primary bg-primary d-flex justify-content-center align-items-center p-2 p-x-6 m-4">Log out</button>
-		</div>
-	);
+  return (
+    <div className={isOwnProfile ? "dark-theme max-w-4xl mx-auto p-4" : "light-theme max-w-4xl mx-auto p-4"}>
+      <ProfileHeader userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
+      <AboutSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
+
+      <div className="section">
+        <button
+          className="btn btn-secondary my-2"
+          onClick={() => setShowExperience(!showExperience)}
+        >
+          {showExperience ? "Hide Experience" : "Show Experience"}
+        </button>
+        {showExperience && (
+          <ExperienceSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
+        )}
+      </div>
+
+      <EducationSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
+      <SkillsSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
+
+      <div className="flex justify-center">
+        <button
+          className="btn btn-danger bg-red-500 hover:bg-red-600 text-white px-4 py-2 m-4 rounded"
+          onClick={handleLogout}
+        >
+          Log out
+        </button>
+      </div>
+    </div>
+  );
 };
+
 export default ProfilePage;

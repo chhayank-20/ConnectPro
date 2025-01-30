@@ -19,8 +19,8 @@ import ApplliedJobs from "./pages/Job/AppliedJobs";
 // import { useSelector } from "react-redux";
 import Chat from "./pages/message/Chat";
 import ResetPasswordForm from "./pages/auth/ForgotPassword";
+import ProfileSetupForm from "./pages/auth/ProfileSetup"
 
-localStorage.setItem('logedinUser', "6789299b38964b0876e828e6");
 
 function App() {
 
@@ -66,6 +66,8 @@ function App() {
 				{/* <Route path='/applied-job' element={ <AppliedJobs /> } /> */}
 				{/* <Route path='/chat' element={<Chat/>} /> */}
 				<Route path='/chat' element={authUser ? <Chat /> : <Navigate to={"/login"} />} />
+				{/* <Route path='/profile-setup' element={authUser ? <ProfileSetupForm /> : <Navigate to={"/login"} />} /> */}
+				<Route path='/profile-setup' element={ <ProfileSetupForm/>} />
 				
 			</Routes>
 			<Toaster />

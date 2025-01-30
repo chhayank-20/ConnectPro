@@ -30,6 +30,7 @@ const userSchema = new mongoose.Schema(
 			default: "",
 		},
 		skills: [String],
+		interest: [String],
 		experience: [
 			{
 				title: String,
