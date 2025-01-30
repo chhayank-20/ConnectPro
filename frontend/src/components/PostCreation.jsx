@@ -94,7 +94,7 @@ const PostCreation = ({ user }) => {
         <div className="flex space-x-4">
           <label className="flex items-center   transition-colors duration-200 cursor-pointer">
             <Image size={20} className="mr-2" />
-            <span class="text-purple-800 hover:text-purple-400  transition-all duration-300">Photo</span>
+            <span class="text-purple-800 hover:text-purple-400  transition-all duration-300">Photo/Video</span>
 
 
             <input

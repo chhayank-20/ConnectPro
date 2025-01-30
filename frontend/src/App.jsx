@@ -59,7 +59,6 @@ function App() {
 				<Route path='/network' element={authUser ? <NetworkPage /> : <Navigate to={"/login"} />} />
 				<Route path='/post/:postId' element={authUser ? <PostPage /> : <Navigate to={"/login"} />} />
 				<Route path='/profile/:username' element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />} />
-
 				<Route path='/job' element={authUser ? <Job /> : <Navigate to={"/login"} />} />
 				<Route path='/create-job' element={authUser ? <CreateJob /> : <Navigate to={"/login"} />} />
 				<Route path='/applied-job' element={authUser ? <ApplliedJobs /> : <Navigate to={"/login"} />} />

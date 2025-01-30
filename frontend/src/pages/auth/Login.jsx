@@ -29,7 +29,6 @@ const Login = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         const userData = {
-      
             email,
             password,
         };
@@ -40,6 +39,7 @@ const Login = () => {
                 },
             });
             toast.success('Sign up successful');
+            loginMutation({ email, password });
             console.log('Sign up successful:', response.data);
         } catch (error) {
             console.error('Error:', error);
@@ -51,15 +51,20 @@ const Login = () => {
         mutationFn: async (userData) => {
             const response = await axios.post("http://localhost:5000/api/v1/auth/login", userData);
             localStorage.setItem('logedinUser', JSON.stringify(response.data));
-            // useSocket();
             return response.data; // Ensure you return the response data
         },
         onSuccess: async (data) => { // Use the data from the mutation
             const token = data.token;
+            let bool = data.user.interest.length;
             Cookies.set('jwt-connectpro', token, { expires: 7, secure: false }); // Set secure to false for local testing
             toast.success("Login success.");
-            queryClient.invalidateQueries('authUser');
-            navigate('/home'); // Navigate after successful login
+            if(bool == 0 ){
+                navigate('/profile-setup');
+                await queryClient.invalidateQueries('authUser');
+            }else{
+                navigate('/home'); // Navigate after successful login
+            }
+            await queryClient.invalidateQueries('authUser');
         },
         onError: (err) => {
             toast.error(err.response.data.message || "Something went wrong");
@@ -92,6 +97,7 @@ const Login = () => {
             });
             toast.success('Sign up successful');
             // console.log('Sign up successful:', response.data);
+            // firstLogin = true;
             loginMutation({ email, password });
         } catch (error) {
             console.error('Error:', error);
