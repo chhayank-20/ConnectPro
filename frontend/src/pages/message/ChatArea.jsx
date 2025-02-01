@@ -187,7 +187,7 @@ const ChatArea = ({ user }) => {
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyDown={handleKeyDown}
                 />
-                <button onClick={sendNewMessage} className="bg-purple-600 text-white p-2 rounded-lg">
+                <button onClick={()=>sendNewMessage()} className="bg-purple-600 text-white p-2 rounded-lg">
                     <i className="fas fa-paper-plane"></i>
                 </button>
             </div>

@@ -47,7 +47,7 @@ function App() {
 	
 
 	return (
-		<Layout authUser={authUser} >
+		<Layout authUser={authUser}>
 			<Routes>
 				<Route path='/' element={authUser ? <HomePage /> : <Navigate to={"/login"} />} />
 				<Route path='/home' element={authUser ? <HomePage /> : <Navigate to={"/login"} />} />
@@ -62,12 +62,8 @@ function App() {
 				<Route path='/job' element={authUser ? <Job /> : <Navigate to={"/login"} />} />
 				<Route path='/create-job' element={authUser ? <CreateJob /> : <Navigate to={"/login"} />} />
 				<Route path='/applied-job' element={authUser ? <ApplliedJobs /> : <Navigate to={"/login"} />} />
-				{/* <Route path='/applied-job' element={ <AppliedJobs /> } /> */}
-				{/* <Route path='/chat' element={<Chat/>} /> */}
 				<Route path='/chat' element={authUser ? <Chat /> : <Navigate to={"/login"} />} />
-				{/* <Route path='/profile-setup' element={authUser ? <ProfileSetupForm /> : <Navigate to={"/login"} />} /> */}
 				<Route path='/profile-setup' element={ <ProfileSetupForm/>} />
-				
 			</Routes>
 			<Toaster />
 		</Layout>

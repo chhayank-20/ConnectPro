@@ -22,7 +22,7 @@ export const getFeedPosts = async (req, res) => {
 	  let posts;
   
 	  // If user has connections, fetch posts from connections
-	  if (req.user.connections.length > 0) {
+	  if (req.user.connections.length > 5) {
 		posts = await Post.find({ author: { $in: [...req.user.connections, req.user._id] } })
 		  .populate("author", "name username profilePicture headline")
 		  .populate("comments.user", "name profilePicture")
@@ -43,33 +43,49 @@ export const getFeedPosts = async (req, res) => {
   };
   
 
+// export const createPost = async (req, res) => {
+// 	try {
+// 		const { content, image } = req.body;
+// 		let newPost;
+
+// 		if (image) {
+// 			const imgResult = await cloudinary.uploader.upload(image);
+// 			newPost = new Post({
+// 				author: req.user._id,
+// 				content,
+// 				image: imgResult.secure_url,
+// 			});
+// 		} else {
+// 			newPost = new Post({
+// 				author: req.user._id,
+// 				content,
+// 			});
+// 		}
+
+// 		await newPost.save();
+
+// 		res.status(201).json(newPost);
+// 	} catch (error) {
+// 		console.error("Error in createPost controller:", error);
+// 		res.status(500).json({ message: "Server error" });
+// 	}
+// };
+
 export const createPost = async (req, res) => {
 	try {
-		const { content, image } = req.body;
-		let newPost;
-
-		if (image) {
-			const imgResult = await cloudinary.uploader.upload(image);
-			newPost = new Post({
-				author: req.user._id,
-				content,
-				image: imgResult.secure_url,
-			});
-		} else {
-			newPost = new Post({
-				author: req.user._id,
-				content,
-			});
-		}
-
-		await newPost.save();
-
-		res.status(201).json(newPost);
+	  const { content, image } = req.body; 
+	  const post = new Post({
+		author: req.user._id,  
+		content,
+		image,  
+	  }); 
+	  const newPost = await post.save(); 
+	  res.status(201).json(newPost);
 	} catch (error) {
-		console.error("Error in createPost controller:", error);
-		res.status(500).json({ message: "Server error" });
+	  console.error("Error in createPost controller:", error);
+	  res.status(500).json({ message: "Server error" });
 	}
-};
+  };
 
 export const deletePost = async (req, res) => {
 	try {

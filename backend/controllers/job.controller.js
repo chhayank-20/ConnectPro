@@ -245,25 +245,25 @@ export const getJobApplicants = async (request, response) => {
 };
 
 
-export const userAppliedJobs = async(request , response) =>{
-  console.log("get applied jobs called");
-  // const userId = request.user._id; // Get userId from route parameter
-  const userId = "67895f2f679091817fe0b034"
-  // console.log(req.user._id );
+export const userAppliedJobs = async (request, response) => {
   try {
-    // Validate the ObjectId
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-      return response.status(400).json({ message: 'Invalid userId format' });
+    const userId = request.user._id;
+
+    if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+      return response.status(400).json({ message: 'Invalid or missing userId' });
     }
+
+    // Create a new ObjectId using the 'new' keyword
+    const userObjectId = new mongoose.Types.ObjectId(userId);
 
     // Find all jobs where the user has applied
     const jobs = await Job.find({
-      'applicants.userId': mongoose.Types.ObjectId(userId),
+      'applicants.userId': userObjectId,
     }).select('title company location jobType applicants');  // Select relevant fields
 
     // If no jobs found
     if (jobs.length === 0) {
-      return response.status(404).json({ message: 'No jobs found for this user .' });
+      return response.status(404).json({ message: 'No jobs found for the specified user.' });
     }
 
     // Map the results to include applied date for each job
@@ -277,16 +277,17 @@ export const userAppliedJobs = async(request , response) =>{
         company: job.company,
         location: job.location,
         jobType: job.jobType,
+        description: job.description,
+        salary: job.salary,
         appliedAt: applicant ? applicant.appliedAt : null, // Applied date
       };
     });
 
     return response.status(200).json({ appliedJobs });
   } catch (error) {
-    console.log(error);
     console.error(error);
     return response.status(500).json({ message: 'Server error' });
   }
-}
+};
 
 

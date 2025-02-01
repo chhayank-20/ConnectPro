@@ -50,9 +50,9 @@ const ChatSidebar = () => {
     }
 
     // Ensure userConversations is not undefined before mapping over it
-    if (!userConversations || userConversations.length === 0) {
-        return <div>No conversations / connections available</div>;
-    }
+    // if (!userConversations || userConversations.length === 0) {
+    //     return <div>No conversations / connections available</div>;
+    // }
 
     return (
         <>
@@ -64,7 +64,7 @@ const ChatSidebar = () => {
                     {userConversations.map((convo) => (
                         <div
                             onClick={conversationHandle(convo.username)} // Now correctly wrapped in a function
-                            className="d-flex p-2 border justify-content-center align-items-center cursor-pointer"
+                            className="d-flex p-2 border align-items-center cursor-pointer"
                             key={convo._id}
                         >
                             <img

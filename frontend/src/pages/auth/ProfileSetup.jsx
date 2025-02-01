@@ -77,7 +77,7 @@ const ProfileSetupForm = () => {
     profilePicture= await readFileAsDataURL(profilePicture);
 
     const formData = {
-      name , username , selectedInterests , profilePicture
+      name , username , interest : selectedInterests , profilePicture
     }
 
     try {

@@ -20,9 +20,6 @@ const Post = ({ post }) => {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState(post.comments || []);
   const isOwner = authUser._id === post.author._id;
-  console.log(isOwner);
-  console.log(authUser._id);
-  console.log(post.author._id);
   const isLiked = post.likes.includes(authUser._id);
 
   const queryClient = useQueryClient();
@@ -93,12 +90,17 @@ const Post = ({ post }) => {
     }
   };
 
+  // Function to determine if the media URL is a video
+  const isVideo = (url) => {
+    return url.endsWith(".mp4") || url.endsWith(".webm") || url.endsWith(".ogg");
+  };
+
   return (
     <div className="rounded-lg shadow mb-4 bg-white">
       <div className="p-4">
         <div className="flex items-center justify-between mb-7">
           <div className="flex items-center ">
-            <Link to={`/profile/${post?.author?.username}` } className="no-underline">
+            <Link to={`/profile/${post?.author?.username}`} className="no-underline">
               <img
                 src={post.author.profilePicture || "/avatar.png"}
                 alt={post.author.name}
@@ -127,7 +129,18 @@ const Post = ({ post }) => {
         </div>
         <div className="gradient-line"></div>
         <p className="mb-4 ">{post.content}</p>
-        {post.image && <img src={post.image} alt="Post content" className="rounded-lg w-full mb-4" />}
+        
+        {/* Render Image or Video based on URL */}
+        {post.image && (
+          isVideo(post.image) ? (
+            <video controls autoPlay className="rounded-lg w-full mb-4">
+              <source src={post.image} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          ) : (
+            <img src={post.image} alt="Post content" className="rounded-lg w-full mb-4" />
+          )
+        )}
 
         <div className="border-t-2 border-Purple-500 mt-4 pt-4 flex justify-between ">
           <PostAction
@@ -143,12 +156,12 @@ const Post = ({ post }) => {
           />
 
           <PostAction
-            icon={<FontAwesomeIcon icon={faComment} size="lg"  className="icon-custom"/>} // Remove border and set background to white
+            icon={<FontAwesomeIcon icon={faComment} size="lg" className="icon-custom" />}
             text={<span className="text-purple">Comment ({comments.length})</span>}
-                        onClick={() => setShowComments(!showComments)}
+            onClick={() => setShowComments(!showComments)}
           />
           <PostAction
-            icon={<FontAwesomeIcon icon={faShareAlt} size="lg"  className="icon-custom" />} // Remove border and set background to white
+            icon={<FontAwesomeIcon icon={faShareAlt} size="lg" className="icon-custom" />}
             text="Share"
           />
         </div>

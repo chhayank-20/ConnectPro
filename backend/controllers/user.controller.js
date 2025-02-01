@@ -110,7 +110,7 @@ export const updateProfile = async (req, res) => {
 			"experience",
 			"education",
 		];
-
+		// console.log(req.body);
 		const updatedData = {};
 		// console.log(req.body);
 		for (const field of allowedFields) {

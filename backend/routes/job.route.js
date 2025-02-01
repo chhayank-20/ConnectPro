@@ -13,23 +13,19 @@ import { protectRoute } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-// Job Routes
-// router.get('/user-applied-jobs'  , getAppliedJobs);
-// console.log("job route entered")
-// Create a new job
 router.post('/create', protectRoute, createJob);
 
 // Update a job by ID
-router.put('/:id', protectRoute, updateJob);
+router.put('update/:id', protectRoute, updateJob);
 
 // Delete a job by ID
-router.delete('/:id', protectRoute, deleteJob);
+router.delete('delete/:id', protectRoute, deleteJob);
 
 // View all jobs (No authentication required)
 router.get('/all-jobs', getAllJobs);
 
 // View a specific job by ID (Authentication required)
-router.get('/:id', protectRoute, getJobById);
+router.get('/get/:id', protectRoute, getJobById);
 
 // Get applied jobs for the logged-in user (Authentication required)
 router.get('/applied', protectRoute, userAppliedJobs);
