@@ -11,6 +11,7 @@ const Navbar = () => {
   // const navigate = useNavigate();
 	const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 	const queryClient = useQueryClient();
+  const navigate = useNavigate(); 
 
 	const { data: notifications } = useQuery({
 		queryKey: ["notifications"],
@@ -52,13 +53,24 @@ const Navbar = () => {
     }
 };
 
-const handleLogout = () => {
-  // alert("logging out");
-      Cookies.remove('jwt-connectpro')       
-      toast.success("Logged out successfully");
-      queryClient.invalidateQueries('authUser');
-      const navigate = useNavigate();
-      navigate('/login'); 
+const { mutate: logoutUser } = useMutation({
+  mutationFn: () => axiosInstance.post("/auth/logout"), // Makes a POST request to the logout endpoint
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["authUser"] }); // Invalidates the 'authUser' query to remove cached user data
+  },
+});
+
+
+const handleLogout = async () => {
+  try {
+    await logoutUser();
+    Cookies.remove('jwt-connectpro', { path: '' });
+    await queryClient.invalidateQueries('authUser');
+    toast.success("Logged out successfully!");
+    navigate('/login');  // Or use `window.location.href = '/login';` for a full page reload
+  } catch (error) {
+    toast.error("Logout failed!");
+  }
 };
 
 

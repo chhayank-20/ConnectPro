@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {axiosInstance} from "../../lib/axios.js";
 import './Login.css'; // Custom styles
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from "react-hot-toast";
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../lib/redux/authuser';
 import { GoogleLogin } from "@react-oauth/google"
 import { jwtDecode } from "jwt-decode";
 
@@ -33,7 +32,7 @@ const Login = () => {
             password,
         };
         try {
-            const response = await axios.post("http://localhost:5000/api/v1/auth/signup", userData, {
+            const response = await axiosInstance.post("/auth/signup", userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -49,7 +48,7 @@ const Login = () => {
 
     const { mutate: loginMutation, isLoading } = useMutation({
         mutationFn: async (userData) => {
-            const response = await axios.post("http://localhost:5000/api/v1/auth/login", userData);
+            const response = await axiosInstance.post("/auth/login", userData);
             localStorage.setItem('logedinUser', JSON.stringify(response.data));
             return response.data; // Ensure you return the response data
         },
@@ -90,7 +89,7 @@ const Login = () => {
         const password = sub;
         // console.log(userData);
         try {
-            const response = await axios.post("http://localhost:5000/api/v1/auth/signup", userData, {
+            const response = await axiosInstance.post("/auth/signup", userData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
