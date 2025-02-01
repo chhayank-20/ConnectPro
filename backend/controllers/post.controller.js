@@ -2,20 +2,8 @@ import cloudinary from "../lib/cloudinary.js";
 import Post from "../models/post.model.js";
 import Notification from "../models/notification.model.js";
 import { sendCommentNotificationEmail } from "../emails/nodemailer.js";
+import mongoose from 'mongoose';
 
-// export const getFeedPosts (older) = async (req, res) => {
-// 	try {
-// 		const posts = await Post.find({ author: { $in: [...req.user.connections, req.user._id] } })
-// 			.populate("author", "name username profilePicture headline")
-// 			.populate("comments.user", "name profilePicture")
-// 			.sort({ createdAt: -1 });
-
-// 		res.status(200).json(posts);
-// 	} catch (error) {
-// 		console.error("Error in getFeedPosts controller:", error);
-// 		res.status(500).json({ message: "Server error" });
-// 	}
-// };
 
 export const getFeedPosts = async (req, res) => { 
 	try {
@@ -42,34 +30,6 @@ export const getFeedPosts = async (req, res) => {
 	}
   };
   
-
-// export const createPost = async (req, res) => {
-// 	try {
-// 		const { content, image } = req.body;
-// 		let newPost;
-
-// 		if (image) {
-// 			const imgResult = await cloudinary.uploader.upload(image);
-// 			newPost = new Post({
-// 				author: req.user._id,
-// 				content,
-// 				image: imgResult.secure_url,
-// 			});
-// 		} else {
-// 			newPost = new Post({
-// 				author: req.user._id,
-// 				content,
-// 			});
-// 		}
-
-// 		await newPost.save();
-
-// 		res.status(201).json(newPost);
-// 	} catch (error) {
-// 		console.error("Error in createPost controller:", error);
-// 		res.status(500).json({ message: "Server error" });
-// 	}
-// };
 
 export const createPost = async (req, res) => {
 	try {
@@ -209,3 +169,25 @@ export const likePost = async (req, res) => {
 		res.status(500).json({ message: "Server error" });
 	}
 };
+
+
+export const userPosts = async (req, res) => {
+  try {
+    const userId = req.user._id;
+	// console.log(userId);
+    // Convert to ObjectId if necessary
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: 'Invalid user ID' });
+    }
+
+    // Find posts by the user
+    const posts = await Post.find({ author: userId });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error in userPosts controller:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+

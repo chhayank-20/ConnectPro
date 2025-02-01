@@ -3,7 +3,7 @@ import { parse, icon } from '@fortawesome/fontawesome-svg-core';
 import { useState } from "react";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faThumbsUp, faComment, faShareAlt, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { Loader } from "lucide-react";
@@ -19,7 +19,10 @@ const Post = ({ post }) => {
   const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState(post.comments || []);
-  const isOwner = authUser._id === post.author._id;
+  
+  const isOwner = (authUser._id === post.author._id) || (authUser._id === post.author);
+  const navigate = useNavigate();
+  
   const isLiked = post.likes.includes(authUser._id);
 
   const queryClient = useQueryClient();
@@ -31,6 +34,7 @@ const Post = ({ post }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       toast.success("Post deleted successfully");
+      navigate(`/profile/${authUser.username}`)
     },
     onError: (error) => {
       toast.error(error.message);
@@ -39,7 +43,7 @@ const Post = ({ post }) => {
 
   const { mutate: createComment, isPending: isAddingComment } = useMutation({
     mutationFn: async (newComment) => {
-      await axiosInstance.post(`/posts/${post._id}/comment`, { content: newComment });
+      await axiosInstance.post(`/posts/post/${post._id}/comment`, { content: newComment });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -52,7 +56,7 @@ const Post = ({ post }) => {
 
   const { mutate: likePost, isPending: isLikingPost } = useMutation({
     mutationFn: async () => {
-      await axiosInstance.post(`/posts/${post._id}/like`);
+      await axiosInstance.post(`/posts/post/${post._id}/like`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -133,12 +137,12 @@ const Post = ({ post }) => {
         {/* Render Image or Video based on URL */}
         {post.image && (
           isVideo(post.image) ? (
-            <video controls autoPlay className="rounded-lg w-full mb-4">
+            <video controls autoPlay className="rounded-lg w-full mb-4" style={{ maxHeight: '600px', objectFit: 'cover' }}>
               <source src={post.image} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           ) : (
-            <img src={post.image} alt="Post content" className="rounded-lg w-full mb-4" />
+            <img src={post.image} alt="Post content" className="rounded-lg w-full mb-4" style={{ maxHeight: '500px', objectFit: 'cover' }} />
           )
         )}
 

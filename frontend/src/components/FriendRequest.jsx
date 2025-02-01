@@ -28,6 +28,10 @@ const FriendRequest = ({ request }) => {
 		},
 	});
 
+	if(!request || !request.sender){
+		return null;
+	}
+
 	return (
 		<div className='bg-white rounded-lg shadow p-4 flex items-center justify-between transition-all hover:shadow-md'>
 			<div className='flex items-center gap-4'>

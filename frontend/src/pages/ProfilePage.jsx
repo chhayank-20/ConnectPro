@@ -8,6 +8,7 @@ import EducationSection from "../components/EducationSection";
 import SkillsSection from "../components/SkillsSection";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import UserAllPost from "../components/UserPosts";
 
 const ProfilePage = () => {
   const { username } = useParams();
@@ -60,13 +61,6 @@ const ProfilePage = () => {
     );
   }
 
-  // Logout confirmation handler
-  const handleLogout = () => {
-    if (window.confirm("Are you sure you want to log out?")) {
-      // Add logout logic here
-      toast.success("Logged out successfully!");
-    }
-  };
 
   const handleSave = (updatedData) => {
     updateProfile(updatedData);
@@ -91,15 +85,9 @@ const ProfilePage = () => {
 
       <EducationSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
       <SkillsSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
-
-      {/* <div className="flex justify-center">
-        <button
-          className="btn btn-danger bg-red-500 hover:bg-red-600 text-white px-4 py-2 m-4 rounded"
-          onClick={handleLogout}
-        >
-          Log out
-        </button>
-      </div> */}
+      
+      <UserAllPost/>
+      
     </div>
   );
 };

@@ -55,6 +55,26 @@ const ChatArea = ({ user }) => {
         }
     };
 
+    const deleteMessage = async (messageId) => {
+        // Show confirmation dialog
+        const isConfirmed = window.confirm("Are you sure you want to delete this message?");
+                if (isConfirmed) {
+            try {
+                // Delete message from the backend
+                await axiosInstance.delete(`/messages/delete/${messageId}`);
+                
+                setMessages((prevMessages) => prevMessages.filter((msg) => msg._id !== messageId));
+                
+                toast.success("Message deleted successfully");
+            } catch (error) {
+                toast.error("Error deleting message: " + error.response?.data?.message || error.message);
+            }
+        } else {
+            console.log("Message deletion canceled.");
+        }
+    };
+
+
     useEffect(() => {
         getData();
 
@@ -159,6 +179,13 @@ const ChatArea = ({ user }) => {
                                     alt="Profile"
                                     className="w-10 h-10 rounded-full ml-2"
                                 />
+                                <button
+                                    onClick={() =>deleteMessage(data._id)}
+                                    className="text-red-500"
+                                    >
+                                        *
+                                </button>
+
                             </>
                         )}
                         {/* For messages sent by "other" */}

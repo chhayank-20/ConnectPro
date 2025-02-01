@@ -14,9 +14,8 @@ import ProfilePage from "./pages/ProfilePage";
 import Job from "./pages/job/Job";
 import { useDispatch } from "react-redux";
 import { setUser } from "./lib/redux/authuser";
-import CreateJob from "./pages/Job/Createjob";
-import ApplliedJobs from "./pages/Job/AppliedJobs";
-// import { useSelector } from "react-redux";
+import CreateJob from "./pages/job/Createjob";
+import ApplliedJobs from "./pages/job/Appliedjobs";
 import Chat from "./pages/message/Chat";
 import ResetPasswordForm from "./pages/auth/ForgotPassword";
 import ProfileSetupForm from "./pages/auth/ProfileSetup"
@@ -25,7 +24,6 @@ import ProfileSetupForm from "./pages/auth/ProfileSetup"
 function App() {
 
 	const dispatch = useDispatch();
-	// const currentUser = useSelector((state) => state.authUser);
 	const { data: authUser } = useQuery({
 		queryKey: ["authUser"],
 		queryFn: async () => {

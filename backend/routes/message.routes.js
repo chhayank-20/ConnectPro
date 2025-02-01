@@ -1,5 +1,5 @@
 import express from "express";
-import { sendMessage, getMessages } from "../controllers/message.controller.js";
+import { sendMessage, getMessages, deleteMessage } from "../controllers/message.controller.js";
 
 const router = express.Router();
 
@@ -8,6 +8,8 @@ router.post("/send", sendMessage);
 
 // Route to get all messages of a conversation
 router.post("/get-conversation-messages", getMessages);
+router.delete('/delete/:messageId', deleteMessage);
+
 
 export default router;
 

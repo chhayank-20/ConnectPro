@@ -60,3 +60,25 @@ export const getMessages = async (req, res) => {
         return res.status(500).json({ message: "Something went wrong." });
     }
 };
+
+export const deleteMessage = async (req, res) => {
+    const { messageId } = req.params;
+
+    if (!messageId) {
+        return res.status(400).json({ message: "Message ID is required." });
+    }
+
+    try {
+        const message = await Message.findById(messageId);
+
+        if (!message) {
+            return res.status(404).json({ message: "Message not found." });
+        }
+
+        await Message.deleteOne({ _id: messageId });
+
+        return res.status(200).json({ message: "Message deleted successfully." });
+    } catch (error) {
+        return res.status(500).json({ message: "An error occurred while deleting the message.", error: error.message });
+    }
+};

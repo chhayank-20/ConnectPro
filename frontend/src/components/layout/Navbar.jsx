@@ -5,7 +5,7 @@ import { Link, Navigate , NavLink, useNavigate } from "react-router-dom";
 import { Bell, Home, LogOut, Briefcase ,Mail ,User, Users } from "lucide-react";
 import Cookies from 'js-cookie';
 import toast from "react-hot-toast";
-import './Navbar.css'; 
+import './navbar.css'; 
 
 const Navbar = () => {
   // const navigate = useNavigate();

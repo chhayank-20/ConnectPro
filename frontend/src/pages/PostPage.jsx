@@ -10,7 +10,7 @@ const PostPage = () => {
 
 	const { data: post, isLoading } = useQuery({
 		queryKey: ["post", postId],
-		queryFn: () => axiosInstance.get(`/posts/${postId}`),
+		queryFn: () => axiosInstance.get(`/posts/get/${postId}`),
 	});
 
 	if (isLoading) return <div>Loading post...</div>;
