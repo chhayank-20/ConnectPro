@@ -136,15 +136,32 @@ const Post = ({ post }) => {
         
         {/* Render Image or Video based on URL */}
         {post.image && (
-          isVideo(post.image) ? (
-            <video controls autoPlay className="rounded-lg w-full mb-4" style={{ maxHeight: '600px', objectFit: 'cover' }}>
-              <source src={post.image} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          ) : (
-            <img src={post.image} alt="Post content" className="rounded-lg w-full mb-4" style={{ maxHeight: '500px', objectFit: 'cover' }} />
-          )
-        )}
+  isVideo(post.image) ? (
+    <video
+      controls
+      className="rounded-lg w-full mb-4"
+      style={{
+        maxHeight: '600px',
+        objectFit: 'cover',
+        width: '100%',
+        transition: 'opacity 0.1s ease-in-out', // Transition for opacity
+      }}
+      onMouseEnter={(e) => e.target.play()} // Play video on hover
+      onMouseLeave={(e) => e.target.pause()} // Pause video when not hovered
+    >
+      <source src={post.image} type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  ) : (
+    <img
+      src={post.image}
+      alt="Post content"
+      className="rounded-lg w-full mb-4"
+      style={{ maxHeight: '500px', objectFit: 'cover' }}
+    />
+  )
+)}
+
 
         <div className="border-t-2 border-Purple-500 mt-4 pt-4 flex justify-between ">
           <PostAction
