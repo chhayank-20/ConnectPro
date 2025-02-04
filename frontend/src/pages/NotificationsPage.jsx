@@ -50,14 +50,14 @@ const NotificationsPage = () => {
 			case "like":
 				return (
 					<span>
-						<strong>{notification.relatedUser.name}</strong> liked your post
+						<strong>{notification?.relatedUser?.name}</strong> liked your post
 					</span>
 				);
 			case "comment":
 				return (
 					<span>
-						<Link to={`/profile/${notification.relatedUser.username}`} className='font-bold'>
-							{notification.relatedUser.name}
+						<Link to={`/profile/${notification?.relatedUser?.username}`} className='font-bold'>
+							{notification?.relatedUser?.name}
 						</Link>{" "}
 						commented on your post
 					</span>
@@ -65,7 +65,7 @@ const NotificationsPage = () => {
 			case "connectionAccepted":
 				return (
 					<span>
-						<Link to={`/profile/${notification.relatedUser.username}`} className='font-bold'>
+						<Link to={`/profile/${notification?.relatedUser?.username}`} className='font-bold'>
 							{notification.relatedUser.name}
 						</Link>{" "}
 						accepted your connection request
@@ -117,10 +117,10 @@ const NotificationsPage = () => {
 								>
 									<div className='flex items-start justify-between'>
 										<div className='flex items-center space-x-4'>
-											<Link to={`/profile/${notification.relatedUser.username}`}>
+											<Link to={`/profile/${notification?.relatedUser?.username}`}>
 												<img
-													src={notification.relatedUser.profilePicture || "/avatar.png"}
-													alt={notification.relatedUser.name}
+													src={notification?.relatedUser?.profilePicture || "/avatar.png"}
+													alt={notification?.relatedUser?.name}
 													className='w-12 h-12 rounded-full object-cover'
 												/>
 											</Link>

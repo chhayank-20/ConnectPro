@@ -33,7 +33,7 @@ if (process.env.NODE_ENV !== "production") {
 	);
 }
 
-
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: "50mb" })); // parse JSON request bodies
 app.use(cookieParser());
 

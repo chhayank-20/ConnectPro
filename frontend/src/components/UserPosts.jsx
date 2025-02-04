@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import { axiosInstance } from "../lib/axios";
 
 
-const UserAllPost = ()=>{
+const UserAllPost = ({userData})=>{
     const user = useSelector(state => {
         console.log(state);  // Log the entire Redux store state
         return state.authorizedUser.user;
@@ -17,7 +17,9 @@ const UserAllPost = ()=>{
     const { data : posts} = useQuery({
         queryKey : ["userPosts"] ,
         queryFn : async()=>{
-            const res = await axiosInstance.get("/posts/user-posts");
+            const userId = userData._id;
+            // alert(userId);
+            const res = await axiosInstance.post("/posts/user-posts" , {userId : userId});
             // console.log(res.data);
             return res.data.reverse() ;
         }

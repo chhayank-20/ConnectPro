@@ -20,7 +20,7 @@ const Post = ({ post }) => {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState(post.comments || []);
   
-  const isOwner = (authUser._id === post.author._id) || (authUser._id === post.author);
+  const isOwner = (authUser?._id === post?.author?._id) || (authUser?._id === post?.author);
   const navigate = useNavigate();
   
   const isLiked = post.likes.includes(authUser._id);
@@ -106,19 +106,19 @@ const Post = ({ post }) => {
           <div className="flex items-center ">
             <Link to={`/profile/${post?.author?.username}`} className="no-underline">
               <img
-                src={post.author.profilePicture || "/avatar.png"}
-                alt={post.author.name}
+                src={post?.author?.profilePicture || "/avatar.png"}
+                alt={post?.author?.name}
                 className="size-10 rounded-full mr-3"
               />
             </Link>
 
             <div>
               <Link to={`/profile/${post?.author?.username}`}>
-                <h3 className="font-semibold">{post.author.name}</h3>
+                <h3 className="font-semibold">{post?.author?.name}</h3>
               </Link>
-              <p className="text-xs text-info">{post.author.headline}</p>
+              <p className="text-xs text-info">{post?.author?.headline}</p>
               <p className="text-xs text-info">
-                {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
+                {formatDistanceToNow(new Date(post?.createdAt), { addSuffix: true })}
               </p>
             </div>
           </div>
@@ -132,11 +132,11 @@ const Post = ({ post }) => {
           )}
         </div>
         <div className="gradient-line"></div>
-        <p className="mb-4 ">{post.content}</p>
+        <p className="mb-4 ">{post?.content}</p>
         
         {/* Render Image or Video based on URL */}
-        {post.image && (
-  isVideo(post.image) ? (
+        {post?.image && (
+  isVideo(post?.image) ? (
     <video
       controls
       className="rounded-lg w-full mb-4"

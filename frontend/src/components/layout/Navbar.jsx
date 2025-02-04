@@ -139,7 +139,7 @@ const handleLogout = async () => {
       </li>
       <li className="nav-item pl-6">
         <NavLink 
-          to={`/profile/${authUser.username}`} 
+          to={`/profile/${authUser?.username}`} 
           className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
         >
           <User  className={({ isActive }) => (isActive ? 'glow' : '')} />

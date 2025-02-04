@@ -32,13 +32,9 @@ const Login = () => {
             password,
         };
         try {
-            const response = await axiosInstance.post("/auth/signup", userData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+            const response = await axiosInstance.post("/auth/signup", userData);
             toast.success('Sign up successful');
-            loginMutation({ email, password });
+            await loginMutation({ email, password });
             console.log('Sign up successful:', response.data);
         } catch (error) {
             console.error('Error:', error);

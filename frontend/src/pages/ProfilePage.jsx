@@ -86,7 +86,7 @@ const ProfilePage = () => {
       <EducationSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
       <SkillsSection userData={userData} isOwnProfile={isOwnProfile} onSave={handleSave} />
       
-      <UserAllPost/>
+      <UserAllPost userData={userData} isOwnProfile={isOwnProfile}/>
       
     </div>
   );

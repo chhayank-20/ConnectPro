@@ -173,7 +173,9 @@ export const likePost = async (req, res) => {
 
 export const userPosts = async (req, res) => {
   try {
-    const userId = req.user._id;
+    // const userId = req.user._id;
+	const userId = req.body.userId;
+	// console.log(req.body);
 	// console.log(userId);
     // Convert to ObjectId if necessary
     if (!mongoose.Types.ObjectId.isValid(userId)) {
