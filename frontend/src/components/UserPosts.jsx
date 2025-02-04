@@ -28,7 +28,7 @@ const UserAllPost = ({userData})=>{
     return(
         <>
         <div className="container">
-            <div className="h2">Your Posts</div>
+            <div className="h2"> Posts</div>
         {/* <div className="container d-flex flex-wrap "> */}
             {posts?.map((post) => (
                 // <div className="" style={{ maxHeight: '800px', objectFit: 'cover' }}>

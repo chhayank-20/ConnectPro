@@ -9,8 +9,10 @@ const ProfileSetupForm = () => {
   const [interest, setInterest] = useState([]);
   const [selectedInterests, setSelectedInterests] = useState([]); // Track selected interests
   const [username, setUsername] = useState(''); // Username state
-  let [profilePicture, setProfilePicture] = useState(null); // Profile picture state
-  const [previewImage, setPreviewImage] = useState(null); // For image preview
+  const defaultImage = 'avatar.png';  // Path to your default image
+  let [profilePicture, setProfilePicture] = useState(defaultImage); // Profile picture state
+  const [previewImage, setPreviewImage] = useState(defaultImage); // For image preview
+
   const navigate = useNavigate();
   
   // Predefined interest suggestions

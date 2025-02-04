@@ -123,3 +123,7 @@ export const resetPasswordTemplate = (OTP) => `
 </body>
 </html>
 `;
+
+
+
+

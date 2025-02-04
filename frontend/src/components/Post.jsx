@@ -23,7 +23,7 @@ const Post = ({ post }) => {
   const isOwner = (authUser?._id === post?.author?._id) || (authUser?._id === post?.author);
   const navigate = useNavigate();
   
-  const isLiked = post.likes.includes(authUser._id);
+  const isLiked = post?.likes?.includes(authUser?._id);
 
   const queryClient = useQueryClient();
 
@@ -72,6 +72,21 @@ const Post = ({ post }) => {
   const handleLikePost = async () => {
     if (isLikingPost) return;
     likePost();
+  };
+
+  const handleCopyClick = async (id) => {
+//     // alert("copying" , id);
+//     const apiUrl = import.meta?.env?.CLIENT_URL; // Accessing VITE_API_URL from .env
+// console.log(apiUrl);
+//     console.log(process?.env?.CLIENT_URL);
+    try {
+      // Attempt to copy the URL to the clipboard
+      await navigator.clipboard.writeText(`https://connectpro-5qfl.onrender.com/post/${id}`);
+      toast.success('copied to clipboard');
+      setCopySuccess('Copied to clipboard!');  // Provide feedback
+    } catch (error) {
+      setCopySuccess('Failed to copy!');  // Handle failure if any
+    }
   };
 
   const handleAddComment = async (e) => {
@@ -184,6 +199,7 @@ const Post = ({ post }) => {
           <PostAction
             icon={<FontAwesomeIcon icon={faShareAlt} size="lg" className="icon-custom" />}
             text="Share"
+            onClick={()=>handleCopyClick(post._id)}
           />
         </div>
       </div>

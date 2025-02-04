@@ -14,7 +14,8 @@ const Job = () => {
       const response = await axiosInstance.post(`/job/apply/${jobId}`);
       toast.success("Applied successfully", response);
     } catch (error) {
-      toast.error("Couldn't apply for this job", error);
+      // toast.error("Couldn't apply for this job", error);
+      toast.error(` ${error.response.data.message} `);
     }
   };
 
@@ -40,10 +41,7 @@ const Job = () => {
         <div className="p-4 bg-white rounded shadow-sm text-center ">
           <div className="row align-items-center">
             <div className="col-md-8 text-md-start">
-              <h5 className="fw-bold text-purple-800">{currentUser.name}, are you looking for a new job?</h5>
-              <p className="text-purple-600">
-                Add your preferences to find relevant jobs and get notified about new open roles.
-              </p>
+              <h5 className="fw-bold text-purple-800">Hey {currentUser.name}, are you looking for a new job?</h5>
             </div>
             <div className="col-md-4"></div>
           </div>
@@ -52,9 +50,6 @@ const Job = () => {
         {/* Job Cards */}
         <div className="mt-4 bg-white rounded shadow-sm p-4">
           <h5 className="fw-bold text-purple-800">Top job picks for you</h5>
-          <p className="text-purple-600">
-            Based on your profile, preferences, and activity like applies, searches, and saves
-          </p>
           <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
             {jobs.map((job, index) => (
               <div key={job._id} className="col">
