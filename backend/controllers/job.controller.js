@@ -1,4 +1,4 @@
-import { response } from "express";
+import { request, response } from "express";
 import Job from "../models/job.model.js";
 import User from "../models/user.model.js";
 import mongoose from 'mongoose';
@@ -289,5 +289,30 @@ export const userAppliedJobs = async (request, response) => {
     return response.status(500).json({ message: 'Server error' });
   }
 };
+
+
+export const userCreatedJobs = async (req, res) => {
+  try {
+    const userId = req.body.userId; // Get the user ID from request body
+    const jobs = await Job.find({ postedBy: userId })
+      .populate('postedBy', 'name email username')  // Populate postedBy field with name, email, and username
+      .populate('applicants.userId', 'name email username');  // Populate applicants.userId with name, email, and username
+
+    // If no jobs are found for the user
+    if (!jobs.length) {
+      return res.status(404).json({ message: 'No jobs found for this user.' });
+    }
+    // console.log(jobs);
+    // Return the jobs with populated user details
+    res.status(200).json(jobs);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+
+
 
 

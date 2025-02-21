@@ -2,15 +2,18 @@
 import { Server } from "socket.io";
 import http from "http";
 import express from "express";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173"], // Frontend URL
+    origin: [process.env.CLIENT_URL], // Frontend URL
     methods: ["POST" ,"GET"],
   },
 });
+// console.log(process.env.CLIENT_URL);
 
 export const getReceiverSocketId = (receiverId) => {
 	return userSocketMap[receiverId];
@@ -19,7 +22,7 @@ export const getReceiverSocketId = (receiverId) => {
 const userSocketMap = {}; // {userId: socketId}
 
 const sendMessageToUser = (receiverId, message) => {
-  console.log(userSocketMap);
+  // console.log(userSocketMap);
   const receiverSocketId = userSocketMap[receiverId];
   if (receiverSocketId) {
     io.to(receiverSocketId).emit("message", message); // Send message to specific user
@@ -34,7 +37,7 @@ io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
   if (userId) {
     userSocketMap[userId] = socket.id; // Map userId to socketId
-    console.log(`User ${userId} connected with socketId: ${socket.id}`);
+    // console.log(`User ${userId} connected with socketId: ${socket.id}`);
   } else {
     console.error("UserId is missing on connection");
   }

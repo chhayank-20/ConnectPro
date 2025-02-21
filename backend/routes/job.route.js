@@ -6,6 +6,7 @@ import {
   getAllJobs,
   getJobById,
   getAppliedJobs,
+  userCreatedJobs,
   userAppliedJobs,
   applyToJob,
 } from '../controllers/job.controller.js';
@@ -14,6 +15,8 @@ import { protectRoute } from '../middleware/auth.middleware.js';
 const router = express.Router();
 
 router.post('/create', protectRoute, createJob);
+
+router.post('/created-jobs', protectRoute, userCreatedJobs);
 
 // Update a job by ID
 router.put('update/:id', protectRoute, updateJob);

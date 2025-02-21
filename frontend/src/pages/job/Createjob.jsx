@@ -4,6 +4,7 @@ import { axiosInstance } from '../../lib/axios';
 import toast from "react-hot-toast";
 import { useSelector } from 'react-redux';
 import JobNav from './JobNav';  
+import UserCreatedJobs from './UserCreatedJobs';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import './Createjob.css'; // Import custom CSS for further styling
 
@@ -163,6 +164,9 @@ const CreateJob = () => {
           </form>
         </div>
       </div>
+
+      <UserCreatedJobs/>  
+
     </>
   );
 };
